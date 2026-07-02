@@ -169,31 +169,19 @@
         }
 
 
-        public function get_ticket_total(){
+        public function get_ticket_count($estado = null){
             $conectar = parent::conexion();
             parent::set_names();
-            $sql="SELECT COUNT(*) as TOTAL FROM tm_ticket";
-            $sql=$conectar->prepare($sql);
-            $sql->execute();
-            return $resultado=$sql->fetchAll();
-        }
-
-        public function get_ticket_totalabierto(){
-            $conectar = parent::conexion();
-            parent::set_names();
-            $sql="SELECT COUNT(*) as TOTAL FROM tm_ticket WHERE tick_estado='Abierto'";
-            $sql=$conectar->prepare($sql);
-            $sql->execute();
-            return $resultado=$sql->fetchAll();
-        }
-
-        public function get_ticket_totalcerrado(){
-            $conectar = parent::conexion();
-            parent::set_names();
-            $sql="SELECT COUNT(*) as TOTAL FROM tm_ticket WHERE  tick_estado='Cerrado'";
-            $sql=$conectar->prepare($sql);
-            $sql->execute();
-            return $resultado=$sql->fetchAll();
+            $sql = "SELECT COUNT(*) as TOTAL FROM tm_ticket";
+            if ($estado !== null) {
+                $sql .= " WHERE tick_estado = ?";
+            }
+            $stmt = $conectar->prepare($sql);
+            if ($estado !== null) {
+                $stmt->bindValue(1, $estado);
+            }
+            $stmt->execute();
+            return $stmt->fetchAll();
         }
 
         public function get_ticket_grafico(){

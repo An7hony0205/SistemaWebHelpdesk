@@ -37,14 +37,10 @@
 
 
                 <form class="sign-box" action="" method="post" id="login_form">
-                    
-                    <input type="hidden" id="rol_id" name="rol_id" value="1">
-
-
                     <div class="sign-avatar">
                         <img src="../public/1.png" alt="" id="imgtipo">
                     </div>
-                    <header class="sign-title" id="lbltitulo"> Acceso Usuario </header>
+                    <header class="sign-title" id="lbltitulo"> Acceso al Sistema </header>
 
                     <?php
                         if (isset($_GET["m"])) {
@@ -96,11 +92,6 @@
                         <div class="float-right reset">
                             <a href="reset-password.html">Cambiar contraseña</a>
                         </div>
-
-                        <div class="float-left reset">
-                            <a href="#" id="btnsoporte" >Acceso Soporte</a>
-                        </div>
-
                     </div>
 
                     <input type="hidden" name="enviar" class="form-control" value="si">

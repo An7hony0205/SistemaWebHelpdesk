@@ -12,14 +12,10 @@ $(document).ready(function(){
     $('#tickd_descrip').summernote({
                 height: 400,
                 lang: "es-ES",
-                callbacks:{
-                    onImageUpload: function(image){
-                        console.log("Image detect...");
-                        myimagetreat(image[0]);
-                    },
-                    onPaste: function(e){
-                        console.log("Text detect...");
-                    }
+                popover: {
+                    image: [],
+                    link: [],
+                    air: []
                 }
             });
 
@@ -27,6 +23,11 @@ $(document).ready(function(){
     $('#tickd_descripusu').summernote({
                 height: 400,
                 lang: "es-ES",
+                popover: {
+                    image: [],
+                    link: [],
+                    air: []
+                }
             });
 
     $('#tickd_descripusu').summernote('disable');

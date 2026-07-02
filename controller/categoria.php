@@ -3,7 +3,8 @@
     require_once("../models/Categoria.php");
     $categoria = new Categoria();
 
-    switch($_GET["op"]){
+    if(isset($_SESSION["usu_id"])){
+        switch($_GET["op"]){
         case "combo":
             $datos = $categoria->get_categoria();
             /* Si los ddatos son validos */
@@ -16,4 +17,5 @@
                 echo $html;
             }
         break;
+    }
     }

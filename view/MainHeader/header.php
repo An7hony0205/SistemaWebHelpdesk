@@ -1,8 +1,8 @@
 <header class="site-header">
 	    <div class="container-fluid">
 	        <a href="#" class="site-logo">
-	            <img class="hidden-md-down" src="public/img/logo-2.png" alt="">
-	            <img class="hidden-lg-up" src="img/logo-2-mob.png" alt="">
+	            <img class="hidden-md-down" src="../../public/img/logo-2.png" alt="">
+	            <img class="hidden-lg-up" src="../../public/img/logo-2-mob.png" alt="">
 	        </a>
 	
 	        <button id="show-hide-sidebar-toggle" class="show-hide-sidebar">
@@ -39,7 +39,7 @@
                     <div class="dropdown dropdown-typical">
                         <a href="#" class="dropdown-toggle no-arr">
                             <span class="font-icon font-icon-user"></span>
-                            <span class="lblcontactonomx"> <?php echo $_SESSION["usu_nom"]; ?> <?php echo $_SESSION["usu_ape"]; ?> </span>
+                            <span class="lblcontactonomx"> <?php echo htmlspecialchars($_SESSION["usu_nom"], ENT_QUOTES, 'UTF-8'); ?> <?php echo htmlspecialchars($_SESSION["usu_ape"], ENT_QUOTES, 'UTF-8'); ?> </span>
                         </a>
                     </div>
 

@@ -3,7 +3,8 @@
     require_once("../models/Usuario.php");
     $usuario = new Usuario();
 
-    switch($_GET["op"]){
+    if(isset($_SESSION["usu_id"])){
+        switch($_GET["op"]){
         case "guardaryeditar":
             if(empty($_POST["usu_id"])){
                     $usuario->insert_usuario($_POST["usu_nom"],$_POST["usu_ape"],$_POST["usu_correo"],$_POST["usu_pass"],$_POST["rol_id"]);
@@ -18,10 +19,10 @@
             $data = Array();
             foreach($datos as $row){
                 $sub_array = array();
-                $sub_array[] = $row["usu_nom"];
-                $sub_array[] = $row["usu_ape"];
-                $sub_array[] = $row["usu_correo"];
-                $sub_array[] = $row["usu_pass"];
+                $sub_array[] = htmlspecialchars($row["usu_nom"], ENT_QUOTES, 'UTF-8');
+                $sub_array[] = htmlspecialchars($row["usu_ape"], ENT_QUOTES, 'UTF-8');
+                $sub_array[] = htmlspecialchars($row["usu_correo"], ENT_QUOTES, 'UTF-8');
+                $sub_array[] = "******";
 
                 if($row["rol_id"]=="1"){
                      $sub_array[] = '<span class="label label-pill label-success">Usuario</span>';
@@ -57,7 +58,7 @@
                     $output["usu_nom"] = $row["usu_nom"];
                     $output["usu_ape"] = $row["usu_ape"];
                     $output["usu_correo"] = $row["usu_correo"];
-                    $output["usu_pass"] = $row["usu_pass"];
+                    $output["usu_pass"] = "";
                     $output["rol_id"] = $row["rol_id"];
                 }
 
@@ -67,7 +68,7 @@
         break;
         
         case "total":
-            $datos = $usuario->get_usuario_total_x_id($_POST["usu_id"]);
+            $datos = $usuario->get_usuario_ticket_count($_POST["usu_id"]);
             if (is_array($datos) == true and count($datos) > 0){
                 foreach($datos as $row)
                 {
@@ -80,7 +81,7 @@
 
 
         case "totalabierto":
-            $datos = $usuario->get_usuario_totalabierto_x_id($_POST["usu_id"]);
+            $datos = $usuario->get_usuario_ticket_count($_POST["usu_id"], 'Abierto');
             if (is_array($datos) == true and count($datos) > 0){
                 foreach($datos as $row)
                 {
@@ -92,7 +93,7 @@
         break;
 
         case "totalcerrado":
-            $datos = $usuario->get_usuario_totalcerrado_x_id($_POST["usu_id"]);
+            $datos = $usuario->get_usuario_ticket_count($_POST["usu_id"], 'Cerrado');
             if (is_array($datos) == true and count($datos) > 0){
                 foreach($datos as $row)
                 {
@@ -107,4 +108,5 @@
             $datos=$usuario->get_usuario_grafico($_POST["usu_id"]);
             echo json_encode($datos);
         break;
+    }
     }

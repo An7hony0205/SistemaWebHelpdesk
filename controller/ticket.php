@@ -3,8 +3,8 @@
     require_once("../models/Ticket.php");
     $ticket = new Ticket();
 
-    
-    switch($_GET["op"]){
+    if(isset($_SESSION["usu_id"])){
+        switch($_GET["op"]){
         case "insert":
             $ticket->insert_ticket($_POST["usu_id"],$_POST["cat_id"],$_POST["tick_titulo"],$_POST["tick_descrip"]);
         break;
@@ -20,8 +20,8 @@
             foreach($datos as $row){
                 $sub_array = array();
                 $sub_array[] = $row["tick_id"];
-                $sub_array[] = $row["cat_nom"];
-                $sub_array[] = $row["tick_titulo"];
+                $sub_array[] = htmlspecialchars($row["cat_nom"], ENT_QUOTES, 'UTF-8');
+                $sub_array[] = htmlspecialchars($row["tick_titulo"], ENT_QUOTES, 'UTF-8');
 
                 if($row["tick_estado"]=="Abierto"){
                      $sub_array[] = '<span class="label label-pill label-success">Abierto</span>';
@@ -50,8 +50,8 @@
             foreach($datos as $row){
                 $sub_array = array();
                 $sub_array[] = $row["tick_id"];
-                $sub_array[] = $row["cat_nom"];
-                $sub_array[] = $row["tick_titulo"];
+                $sub_array[] = htmlspecialchars($row["cat_nom"], ENT_QUOTES, 'UTF-8');
+                $sub_array[] = htmlspecialchars($row["tick_titulo"], ENT_QUOTES, 'UTF-8');
 
                 if($row["tick_estado"]=="Abierto"){
                      $sub_array[] = '<span class="label label-pill label-success">Abierto</span>';
@@ -92,7 +92,7 @@
                                                 <img src="../../public/<?php echo $row['rol_id'] ?>.png" alt="">
                                             </a>
                                         </div>
-                                        <div class="activity-line-item-user-name"><?php echo $row['usu_nom'].' '.$row['usu_ape'];?></div>
+                                        <div class="activity-line-item-user-name"><?php echo htmlspecialchars($row['usu_nom'].' '.$row['usu_ape'], ENT_QUOTES, 'UTF-8');?></div>
                                         <div class="activity-line-item-user-status">
                                             <?php 
                                                 if ($row['rol_id']==1){
@@ -109,7 +109,7 @@
                                         <div class="time"><?php echo date("H:i:s", strtotime($row['fech_crea']));?></div>
                                         <div class="cont">
                                             <div class="cont-in">
-                                                <?php echo $row["tickd_descrip"]?>
+                                                <?php echo strip_tags($row["tickd_descrip"], '<p><a><b><i><u><strong><em><br><ul><ol><li><span><div><h1><h2><h3><h4><h5><h6><img><hr><font><blockquote>'); ?>
                                             </div>
                                         </div>
                                     </section>
@@ -129,8 +129,8 @@
                     $output["tick_id"]     = $row["tick_id"];
                     $output["usu_id"]      = $row["usu_id"];
                     $output["cat_id"]      = $row["cat_id"];
-                    $output["tick_titulo"] = $row["tick_titulo"];
-                    $output["tick_descrip"] = $row["tick_descrip"];
+                    $output["tick_titulo"] = htmlspecialchars($row["tick_titulo"], ENT_QUOTES, 'UTF-8');
+                    $output["tick_descrip"] = strip_tags($row["tick_descrip"], '<p><a><b><i><u><strong><em><br><ul><ol><li><span><div><h1><h2><h3><h4><h5><h6><img><hr><font><blockquote>');
                     if($row["tick_estado"]=="Abierto"){
                         $output["tick_estado"] = '<span class="label label-pill label-success">Abierto</span>';
                     }else{
@@ -157,7 +157,7 @@
 
 
         case "total":
-            $datos = $ticket->get_ticket_total();
+            $datos = $ticket->get_ticket_count();
             if (is_array($datos) == true and count($datos) > 0){
                 foreach($datos as $row)
                 {
@@ -170,7 +170,7 @@
 
 
         case "totalabierto":
-            $datos = $ticket->get_ticket_totalabierto();
+            $datos = $ticket->get_ticket_count('Abierto');
             if (is_array($datos) == true and count($datos) > 0){
                 foreach($datos as $row)
                 {
@@ -182,7 +182,7 @@
         break;
 
         case "totalcerrado":
-            $datos = $ticket->get_ticket_totalcerrado();
+            $datos = $ticket->get_ticket_count('Cerrado');
             if (is_array($datos) == true and count($datos) > 0){
                 foreach($datos as $row)
                 {
@@ -198,4 +198,5 @@
             $datos=$ticket->get_ticket_grafico();
             echo json_encode($datos);
         break;
+    }
     }

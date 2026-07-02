@@ -121,7 +121,7 @@ $(document).ready(function(){
 
 function ver(tick_id){
     console.log(tick_id);
-    window.open('http://localhost:8012/PERSONAL_HelpDesk/view/DetalleTicket/?ID='+tick_id+'');
+    window.open('http://localhost:8012/view/DetalleTicket/?ID='+tick_id+'');
 }
 
 init();
