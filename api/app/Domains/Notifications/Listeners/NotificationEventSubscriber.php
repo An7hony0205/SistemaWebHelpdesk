@@ -2,14 +2,13 @@
 
 namespace App\Domains\Notifications\Listeners;
 
-use Illuminate\Events\Dispatcher;
-use App\Events\TicketCreated;
-use App\Events\TicketAssigned;
-use App\Events\TicketResolved;
+use App\Domains\Identity\User;
 use App\Domains\Notifications\Jobs\ProcessNotificationJob;
 use App\Domains\Notifications\Models\NotificationPreference;
-use App\Domains\Identity\User;
-use Illuminate\Support\Facades\Log;
+use App\Events\TicketAssigned;
+use App\Events\TicketCreated;
+use App\Events\TicketResolved;
+use Illuminate\Events\Dispatcher;
 
 class NotificationEventSubscriber
 {
@@ -53,7 +52,9 @@ class NotificationEventSubscriber
     private function dispatchNotifications(int $tenantId, string $eventName, array $payload, array $potentialRecipients)
     {
         foreach ($potentialRecipients as $userId) {
-            if (!$userId) continue;
+            if (! $userId) {
+                continue;
+            }
 
             // Ver preferencias del usuario
             $pref = NotificationPreference::where('configurable_type', User::class)
@@ -61,7 +62,7 @@ class NotificationEventSubscriber
                 ->where('event_name', $eventName)
                 ->first();
 
-            // Si no tiene preferencia explícita, podríamos asumir un default (ej. email) 
+            // Si no tiene preferencia explícita, podríamos asumir un default (ej. email)
             // Para el MVP asumiremos default = email
             $channels = $pref ? $pref->channels : ['email'];
 

@@ -41,14 +41,26 @@ defineEmits(['update:modelValue']);
             modelValue ? 'translate-x-5' : 'translate-x-0',
             'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
           ]"
-        ></span>
+        />
       </button>
     </div>
-    <div v-if="label || description" class="ml-3 text-sm">
-      <label v-if="label" class="font-medium text-content cursor-pointer" @click="!disabled && $emit('update:modelValue', !modelValue)">
+    <div
+      v-if="label || description"
+      class="ml-3 text-sm"
+    >
+      <label
+        v-if="label"
+        class="font-medium text-content cursor-pointer"
+        @click="!disabled && $emit('update:modelValue', !modelValue)"
+      >
         {{ label }}
       </label>
-      <p v-if="description" class="text-muted">{{ description }}</p>
+      <p
+        v-if="description"
+        class="text-muted"
+      >
+        {{ description }}
+      </p>
     </div>
   </div>
 </template>

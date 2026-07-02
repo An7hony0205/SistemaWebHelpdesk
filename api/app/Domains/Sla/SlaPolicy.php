@@ -2,8 +2,8 @@
 
 namespace App\Domains\Sla;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant;
+use Illuminate\Database\Eloquent\Model;
 
 class SlaPolicy extends Model
 {
@@ -14,12 +14,12 @@ class SlaPolicy extends Model
         'name',
         'description',
         'is_active',
-        'conditions'
+        'conditions',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'conditions' => 'array'
+        'conditions' => 'array',
     ];
 
     public function targets()

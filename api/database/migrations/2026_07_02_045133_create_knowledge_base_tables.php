@@ -41,10 +41,10 @@ return new class extends Migration
             $table->unsignedInteger('upvotes')->default(0);
             $table->unsignedInteger('downvotes')->default(0);
             $table->timestamps();
-            
+
             $table->unique(['tenant_id', 'slug']);
             // Índice FULLTEXT simulado para búsquedas (si la BD lo permite, o índices regulares)
-            $table->index(['title']); 
+            $table->index(['title']);
         });
 
         Schema::create('kb_article_versions', function (Blueprint $table) {
@@ -55,7 +55,7 @@ return new class extends Migration
             $table->longText('content');
             $table->foreignId('created_by')->constrained('users');
             $table->timestamps();
-            
+
             $table->unique(['article_id', 'version_number']);
         });
 

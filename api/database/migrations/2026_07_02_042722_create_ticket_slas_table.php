@@ -16,20 +16,20 @@ return new class extends Migration
             $table->foreignId('tenant_id')->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('ticket_id'); // Referencia lógica al bounded context Support
             $table->foreignId('sla_policy_id')->constrained('sla_policies');
-            
+
             $table->timestamp('first_response_due_at')->nullable();
             $table->timestamp('first_response_completed_at')->nullable();
             $table->boolean('first_response_breached')->default(false);
-            
+
             $table->timestamp('resolution_due_at')->nullable();
             $table->timestamp('resolution_completed_at')->nullable();
             $table->boolean('resolution_breached')->default(false);
-            
+
             $table->timestamp('paused_at')->nullable();
             $table->integer('accumulated_pause_minutes')->default(0);
-            
+
             $table->timestamps();
-            
+
             $table->index('ticket_id');
         });
     }

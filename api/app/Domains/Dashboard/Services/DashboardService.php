@@ -22,7 +22,7 @@ class DashboardService
 
     public function getMetric(string $identifier, Tenant $tenant, ?User $user, Carbon $start, Carbon $end)
     {
-        if (!isset($this->providers[$identifier])) {
+        if (! isset($this->providers[$identifier])) {
             throw new \Exception("KPI Provider not found: {$identifier}");
         }
 
@@ -41,6 +41,7 @@ class DashboardService
     private function buildCacheKey(string $identifier, Tenant $tenant, ?User $user, Carbon $start, Carbon $end): string
     {
         $userId = $user ? $user->id : 'all';
+
         return "kpi:{$identifier}:tenant:{$tenant->id}:user:{$userId}:{$start->toDateString()}:{$end->toDateString()}";
     }
 

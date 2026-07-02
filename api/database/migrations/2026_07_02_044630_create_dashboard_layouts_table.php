@@ -17,7 +17,7 @@ return new class extends Migration
             $table->json('widgets_layout'); // Array of widgets with their position and config
             $table->boolean('is_default')->default(false);
             $table->timestamps();
-            
+
             $table->unique(['configurable_type', 'configurable_id'], 'dashboard_layout_unique');
         });
     }

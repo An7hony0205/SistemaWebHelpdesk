@@ -2,9 +2,9 @@
 
 namespace App\Domains\Notifications\Channels;
 
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class EmailChannel implements NotificationChannelInterface
 {
@@ -13,11 +13,13 @@ class EmailChannel implements NotificationChannelInterface
         try {
             Mail::html($body, function (Message $message) use ($subject, $recipient) {
                 $message->to($recipient)
-                        ->subject($subject);
+                    ->subject($subject);
             });
+
             return true;
         } catch (\Exception $e) {
-            Log::error("EmailChannel failed: " . $e->getMessage());
+            Log::error('EmailChannel failed: '.$e->getMessage());
+
             return false;
         }
     }

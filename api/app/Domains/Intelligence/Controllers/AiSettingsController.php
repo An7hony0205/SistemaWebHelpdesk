@@ -2,10 +2,11 @@
 
 namespace App\Domains\Intelligence\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Domains\Intelligence\Models\AiSetting;
 use App\Domains\Intelligence\Services\OpenAiService;
+use App\Domains\KnowledgeBase\Models\KbArticle;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class AiSettingsController extends Controller
 {
@@ -15,10 +16,10 @@ class AiSettingsController extends Controller
             ['tenant_id' => $request->user()->tenant_id],
             [
                 'is_triage_enabled' => false,
-                'is_sentiment_enabled' => false
+                'is_sentiment_enabled' => false,
             ]
         );
-        
+
         return response()->json($settings);
     }
 
@@ -50,7 +51,7 @@ class AiSettingsController extends Controller
         ]);
 
         $settings = AiSetting::where('tenant_id', $request->user()->tenant_id)->first();
-        if (!$settings || empty($settings->openai_api_key)) {
+        if (! $settings || empty($settings->openai_api_key)) {
             return response()->json(['articles' => []]);
         }
 
@@ -62,12 +63,12 @@ class AiSettingsController extends Controller
         }
 
         // MVP: Full-Text search fallback using AI keywords
-        $query = \App\Domains\KnowledgeBase\Models\KbArticle::where('tenant_id', $request->user()->tenant_id)
+        $query = KbArticle::where('tenant_id', $request->user()->tenant_id)
             ->where('status', 'published');
 
         foreach ($keywords as $keyword) {
             $query->orWhere('title', 'like', "%{$keyword}%")
-                  ->orWhere('content', 'like', "%{$keyword}%");
+                ->orWhere('content', 'like', "%{$keyword}%");
         }
 
         $articles = $query->take(3)->get(['id', 'title', 'slug', 'views_count']);

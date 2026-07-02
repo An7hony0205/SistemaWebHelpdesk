@@ -2,8 +2,9 @@
 
 namespace App\Domains\Intelligence\Engine;
 
-use Illuminate\Events\Dispatcher;
 use App\Domains\Intelligence\Jobs\AiClassifyTicketJob;
+use App\Domains\Support\Events\TicketCreated;
+use Illuminate\Events\Dispatcher;
 
 class IntelligenceEventSubscriber
 {
@@ -15,7 +16,7 @@ class IntelligenceEventSubscriber
     public function subscribe(Dispatcher $events): array
     {
         return [
-            \App\Domains\Support\Events\TicketCreated::class => 'handleTicketCreated',
+            TicketCreated::class => 'handleTicketCreated',
         ];
     }
 }

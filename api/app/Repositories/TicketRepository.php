@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Domains\Shared\Contracts\TicketProviderInterface;
 use App\Domains\Support\Ticket;
 use Illuminate\Database\Eloquent\Collection;
-use App\Domains\Shared\Contracts\TicketProviderInterface;
 
-class TicketRepository implements TicketRepositoryInterface, TicketProviderInterface
+class TicketRepository implements TicketProviderInterface, TicketRepositoryInterface
 {
     public function getAll(): Collection
     {
@@ -26,16 +26,19 @@ class TicketRepository implements TicketRepositoryInterface, TicketProviderInter
     public function update(int $id, array $data): bool
     {
         $ticket = $this->findById($id);
-        if (!$ticket) {
+        if (! $ticket) {
             return false;
         }
+
         return $ticket->update($data);
     }
 
     public function getTicketInfo(int $ticketId): ?array
     {
         $ticket = $this->findById($ticketId);
-        if (!$ticket) return null;
+        if (! $ticket) {
+            return null;
+        }
 
         return [
             'id' => $ticket->id,

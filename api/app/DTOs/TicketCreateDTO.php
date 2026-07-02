@@ -10,8 +10,7 @@ class TicketCreateDTO
         public readonly string $title,
         public readonly string $description,
         public readonly ?int $priorityId = null
-    ) {
-    }
+    ) {}
 
     public static function fromRequest(array $data, int $userId): self
     {

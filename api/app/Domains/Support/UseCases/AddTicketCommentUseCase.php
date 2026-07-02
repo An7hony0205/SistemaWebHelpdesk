@@ -4,8 +4,8 @@ namespace App\Domains\Support\UseCases;
 
 use App\Domains\Support\Ticket;
 use App\Domains\Support\TicketComment;
-use Illuminate\Support\Facades\Event;
 use App\Events\TicketCommentAdded;
+use Illuminate\Support\Facades\Event;
 
 class AddTicketCommentUseCase
 {

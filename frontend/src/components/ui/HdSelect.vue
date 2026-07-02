@@ -31,13 +31,18 @@ defineEmits(['update:modelValue']);
 
 <template>
   <div class="w-full">
-    <label v-if="label" class="block text-sm font-medium text-muted mb-1">
-      {{ label }} <span v-if="required" class="text-danger">*</span>
+    <label
+      v-if="label"
+      class="block text-sm font-medium text-muted mb-1"
+    >
+      {{ label }} <span
+        v-if="required"
+        class="text-danger"
+      >*</span>
     </label>
     <div class="relative">
       <select
         :value="modelValue"
-        @change="$emit('update:modelValue', $event.target.value)"
         :required="required"
         :disabled="disabled"
         :class="[
@@ -47,14 +52,24 @@ defineEmits(['update:modelValue']);
           disabled ? 'opacity-50 cursor-not-allowed' : '',
           error ? 'border-danger focus:ring-danger focus:border-danger' : 'border-subtle'
         ]"
+        @change="$emit('update:modelValue', $event.target.value)"
       >
         <slot>
-          <option v-for="option in options" :key="option.value || option.id" :value="option.value || option.id">
+          <option
+            v-for="option in options"
+            :key="option.value || option.id"
+            :value="option.value || option.id"
+          >
             {{ option.label || option.name }}
           </option>
         </slot>
       </select>
     </div>
-    <p v-if="error" class="mt-1 text-sm text-danger">{{ error }}</p>
+    <p
+      v-if="error"
+      class="mt-1 text-sm text-danger"
+    >
+      {{ error }}
+    </p>
   </div>
 </template>

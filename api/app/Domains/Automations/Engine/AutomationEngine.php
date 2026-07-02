@@ -2,6 +2,8 @@
 
 namespace App\Domains\Automations\Engine;
 
+use App\Domains\Automations\Actions\AssignTicketAction;
+use App\Domains\Automations\Actions\UpdateTicketStatusAction;
 use App\Domains\Automations\Models\AutomationRule;
 use App\Domains\Support\Models\Ticket;
 use Illuminate\Support\Facades\Log;
@@ -12,8 +14,8 @@ class AutomationEngine
      * Map of action types to their respective classes
      */
     protected array $actionHandlers = [
-        'assign_to_user' => \App\Domains\Automations\Actions\AssignTicketAction::class,
-        'set_status' => \App\Domains\Automations\Actions\UpdateTicketStatusAction::class,
+        'assign_to_user' => AssignTicketAction::class,
+        'set_status' => UpdateTicketStatusAction::class,
     ];
 
     public function processEvent(string $eventName, Ticket $ticket): void
@@ -42,8 +44,8 @@ class AutomationEngine
         // MVP: ALL conditions must pass (AND logic)
         foreach ($rule->conditions as $condition) {
             $fieldValue = $this->getFieldValue($ticket, $condition->field);
-            
-            if (!$this->evaluate($fieldValue, $condition->operator, $condition->value)) {
+
+            if (! $this->evaluate($fieldValue, $condition->operator, $condition->value)) {
                 return false; // Fast fail
             }
         }
@@ -61,7 +63,7 @@ class AutomationEngine
     {
         // Type casting for robust comparison
         $actualString = (string) $actualValue;
-        
+
         switch ($operator) {
             case 'equals':
                 return $actualString === $expectedValue;
@@ -81,12 +83,12 @@ class AutomationEngine
         foreach ($rule->actions as $actionData) {
             if (isset($this->actionHandlers[$actionData->action_type])) {
                 $handlerClass = $this->actionHandlers[$actionData->action_type];
-                $handler = new $handlerClass();
-                
+                $handler = new $handlerClass;
+
                 try {
                     $handler->execute($ticket, $actionData->action_payload);
                 } catch (\Exception $e) {
-                    Log::error("Automation Action Error (Rule ID: {$rule->id}): " . $e->getMessage());
+                    Log::error("Automation Action Error (Rule ID: {$rule->id}): ".$e->getMessage());
                 }
             }
         }

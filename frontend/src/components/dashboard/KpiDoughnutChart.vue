@@ -55,22 +55,39 @@ const chartOptions = {
 
 <template>
   <HdCard class="h-full min-h-[300px] flex flex-col transition-all hover:border-primary/50">
-    <h3 class="text-sm font-medium font-brand text-muted uppercase tracking-wider mb-4">{{ title }}</h3>
+    <h3 class="text-sm font-medium font-brand text-muted uppercase tracking-wider mb-4">
+      {{ title }}
+    </h3>
     
-    <div v-if="loading" class="flex-grow flex items-center justify-center">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    <div
+      v-if="loading"
+      class="flex-grow flex items-center justify-center"
+    >
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
     </div>
     
-    <div v-else-if="error" class="flex-grow flex items-center justify-center text-sm text-danger font-medium">
+    <div
+      v-else-if="error"
+      class="flex-grow flex items-center justify-center text-sm text-danger font-medium"
+    >
       {{ error }}
     </div>
     
-    <div v-else-if="data.length === 0 || data.every(v => v === 0)" class="flex-grow flex items-center justify-center text-sm text-muted">
+    <div
+      v-else-if="data.length === 0 || data.every(v => v === 0)"
+      class="flex-grow flex items-center justify-center text-sm text-muted"
+    >
       No hay datos para mostrar
     </div>
     
-    <div v-else class="flex-grow relative">
-      <Doughnut :data="chartData" :options="chartOptions" />
+    <div
+      v-else
+      class="flex-grow relative"
+    >
+      <Doughnut
+        :data="chartData"
+        :options="chartOptions"
+      />
     </div>
   </HdCard>
 </template>

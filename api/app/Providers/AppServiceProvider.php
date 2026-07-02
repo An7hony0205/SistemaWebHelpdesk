@@ -2,6 +2,25 @@
 
 namespace App\Providers;
 
+use App\Domains\Automations\Engine\AutomationEventSubscriber;
+use App\Domains\Dashboard\Providers\SlaComplianceKpi;
+use App\Domains\Dashboard\Providers\TicketsByStatusKpi;
+use App\Domains\Dashboard\Providers\TicketsCountKpi;
+use App\Domains\Dashboard\Services\DashboardService;
+use App\Domains\Integrations\Engine\IntegrationEventSubscriber;
+use App\Domains\Intelligence\Engine\IntelligenceEventSubscriber;
+use App\Domains\Notifications\Listeners\NotificationEventSubscriber;
+use App\Domains\Preferences\Repositories\EloquentUserPreferenceRepository;
+use App\Domains\Preferences\Repositories\UserPreferenceRepositoryInterface;
+use App\Domains\Sla\Listeners\TicketCommentAddedListener;
+use App\Domains\Sla\Listeners\TicketCreatedListener;
+use App\Domains\Sla\Listeners\TicketStatusChangedListener;
+use App\Events\TicketCommentAdded;
+use App\Events\TicketCreated;
+use App\Events\TicketStatusUpdated;
+use App\Repositories\TicketRepository;
+use App\Repositories\TicketRepositoryInterface;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -12,12 +31,12 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            \App\Repositories\TicketRepositoryInterface::class,
-            \App\Repositories\TicketRepository::class
+            TicketRepositoryInterface::class,
+            TicketRepository::class
         );
         $this->app->bind(
-            \App\Domains\Preferences\Repositories\UserPreferenceRepositoryInterface::class,
-            \App\Domains\Preferences\Repositories\EloquentUserPreferenceRepository::class
+            UserPreferenceRepositoryInterface::class,
+            EloquentUserPreferenceRepository::class
         );
     }
 
@@ -27,45 +46,46 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Registrar Eventos del Dominio SLA
-        \Illuminate\Support\Facades\Event::listen(
-            \App\Events\TicketCreated::class,
-            \App\Domains\Sla\Listeners\TicketCreatedListener::class,
+        Event::listen(
+            TicketCreated::class,
+            TicketCreatedListener::class,
         );
-        \Illuminate\Support\Facades\Event::listen(
-            \App\Events\TicketCommentAdded::class,
-            \App\Domains\Sla\Listeners\TicketCommentAddedListener::class,
+        Event::listen(
+            TicketCommentAdded::class,
+            TicketCommentAddedListener::class,
         );
-        \Illuminate\Support\Facades\Event::listen(
-            \App\Events\TicketStatusUpdated::class,
-            \App\Domains\Sla\Listeners\TicketStatusChangedListener::class,
+        Event::listen(
+            TicketStatusUpdated::class,
+            TicketStatusChangedListener::class,
         );
 
         // Registrar Event Subscriber de Notificaciones
-        \Illuminate\Support\Facades\Event::subscribe(
-            \App\Domains\Notifications\Listeners\NotificationEventSubscriber::class
+        Event::subscribe(
+            NotificationEventSubscriber::class
         );
 
         // Registrar Event Subscriber de Automatizaciones
-        \Illuminate\Support\Facades\Event::subscribe(
-            \App\Domains\Automations\Engine\AutomationEventSubscriber::class
+        Event::subscribe(
+            AutomationEventSubscriber::class
         );
 
         // Registrar Event Subscriber de Integraciones
-        \Illuminate\Support\Facades\Event::subscribe(
-            \App\Domains\Integrations\Engine\IntegrationEventSubscriber::class
+        Event::subscribe(
+            IntegrationEventSubscriber::class
         );
 
         // Registrar Event Subscriber de Inteligencia Artificial
-        \Illuminate\Support\Facades\Event::subscribe(
-            \App\Domains\Intelligence\Engine\IntelligenceEventSubscriber::class
+        Event::subscribe(
+            IntelligenceEventSubscriber::class
         );
 
         // Registrar KPI Providers en DashboardService
-        $this->app->singleton(\App\Domains\Dashboard\Services\DashboardService::class, function ($app) {
-            $service = new \App\Domains\Dashboard\Services\DashboardService();
-            $service->registerProvider(new \App\Domains\Dashboard\Providers\TicketsCountKpi());
-            $service->registerProvider(new \App\Domains\Dashboard\Providers\SlaComplianceKpi());
-            $service->registerProvider(new \App\Domains\Dashboard\Providers\TicketsByStatusKpi());
+        $this->app->singleton(DashboardService::class, function ($app) {
+            $service = new DashboardService;
+            $service->registerProvider(new TicketsCountKpi);
+            $service->registerProvider(new SlaComplianceKpi);
+            $service->registerProvider(new TicketsByStatusKpi);
+
             return $service;
         });
     }

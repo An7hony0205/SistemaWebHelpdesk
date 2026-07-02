@@ -42,7 +42,9 @@ const resetToDefault = async () => {
 
 <template>
   <div class="font-body">
-    <h2 class="text-xl font-medium font-brand text-content mb-6">Perfil Público</h2>
+    <h2 class="text-xl font-medium font-brand text-content mb-6">
+      Perfil Público
+    </h2>
     
     <div class="space-y-6">
       <!-- Datos Base (Solo lectura) -->
@@ -51,20 +53,24 @@ const resetToDefault = async () => {
           <HdInput 
             label="Nombre Completo"
             type="text" 
-            :modelValue="user.name"
+            :model-value="user.name"
             disabled
           />
-          <p class="mt-1 text-xs text-muted">Administrado por tu organización.</p>
+          <p class="mt-1 text-xs text-muted">
+            Administrado por tu organización.
+          </p>
         </div>
         
         <div>
           <HdInput 
             label="Correo Electrónico"
             type="email" 
-            :modelValue="user.email"
+            :model-value="user.email"
             disabled
           />
-          <p class="mt-1 text-xs text-muted">Administrado por tu organización.</p>
+          <p class="mt-1 text-xs text-muted">
+            Administrado por tu organización.
+          </p>
         </div>
       </section>
 
@@ -74,9 +80,9 @@ const resetToDefault = async () => {
           <HdInput 
             label="Cargo / Título"
             type="text" 
-            :modelValue="localSettings.job_title"
-            @update:modelValue="updateSetting('job_title', $event)"
+            :model-value="localSettings.job_title"
             placeholder="Ej: Especialista de Soporte"
+            @update:model-value="updateSetting('job_title', $event)"
           />
         </div>
         
@@ -84,36 +90,38 @@ const resetToDefault = async () => {
           <HdInput 
             label="Teléfono"
             type="tel" 
-            :modelValue="localSettings.phone"
-            @update:modelValue="updateSetting('phone', $event)"
+            :model-value="localSettings.phone"
             placeholder="+1 234 567 8900"
+            @update:model-value="updateSetting('phone', $event)"
           />
         </div>
 
         <div>
           <HdTextarea 
             label="Firma de Correo/Respuesta"
-            :modelValue="localSettings.signature"
-            @update:modelValue="updateSetting('signature', $event)"
+            :model-value="localSettings.signature"
             rows="3"
             placeholder="Atentamente,&#10;Tu Nombre&#10;Tu Cargo"
+            @update:model-value="updateSetting('signature', $event)"
           />
-          <p class="mt-1 text-xs text-muted">Se adjuntará automáticamente al responder tickets.</p>
+          <p class="mt-1 text-xs text-muted">
+            Se adjuntará automáticamente al responder tickets.
+          </p>
         </div>
       </section>
 
       <!-- Botones de Acción -->
       <section class="border-t border-subtle pt-6 flex justify-end space-x-3">
         <HdButton 
-          @click="resetToDefault"
           variant="ghost"
+          @click="resetToDefault"
         >
           Restablecer
         </HdButton>
         <HdButton 
-          @click="applyChanges"
           :disabled="isSaving"
           variant="primary"
+          @click="applyChanges"
         >
           {{ isSaving ? 'Guardando...' : 'Aplicar' }}
         </HdButton>

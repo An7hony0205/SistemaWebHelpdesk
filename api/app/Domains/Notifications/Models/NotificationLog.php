@@ -2,9 +2,9 @@
 
 namespace App\Domains\Notifications\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToTenant;
 use App\Domains\Identity\User;
+use App\Traits\BelongsToTenant;
+use Illuminate\Database\Eloquent\Model;
 
 class NotificationLog extends Model
 {

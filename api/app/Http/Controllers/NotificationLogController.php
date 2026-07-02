@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Domains\Notifications\Models\NotificationLog;
+use Illuminate\Http\Request;
 
 class NotificationLogController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

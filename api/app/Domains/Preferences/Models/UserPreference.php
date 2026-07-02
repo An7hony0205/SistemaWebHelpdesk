@@ -2,16 +2,16 @@
 
 namespace App\Domains\Preferences\Models;
 
+use App\Domains\Identity\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Domains\Identity\User;
 
 class UserPreference extends Model
 {
     protected $fillable = [
         'user_id',
         'category',
-        'settings'
+        'settings',
     ];
 
     protected $casts = [

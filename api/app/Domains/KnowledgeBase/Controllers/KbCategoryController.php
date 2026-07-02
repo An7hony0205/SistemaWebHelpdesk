@@ -2,9 +2,9 @@
 
 namespace App\Domains\KnowledgeBase\Controllers;
 
+use App\Domains\KnowledgeBase\Models\KbCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Domains\KnowledgeBase\Models\KbCategory;
 
 class KbCategoryController extends Controller
 {
@@ -15,7 +15,7 @@ class KbCategoryController extends Controller
             ->where('tenant_id', $request->user()->tenant_id)
             ->whereNull('parent_id') // Top level
             ->get();
-            
+
         return response()->json($categories);
     }
 

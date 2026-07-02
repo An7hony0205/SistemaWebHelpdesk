@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('event_name');
             $table->json('channels'); // ["email", "slack"]
             $table->timestamps();
-            
+
             $table->unique(['configurable_type', 'configurable_id', 'event_name'], 'notif_pref_unique');
         });
     }

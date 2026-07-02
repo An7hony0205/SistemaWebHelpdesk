@@ -2,10 +2,10 @@
 
 namespace App\Domains\KnowledgeBase\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Domains\KnowledgeBase\Models\KbArticle;
 use App\Domains\KnowledgeBase\Models\KbArticleVersion;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class KbArticleController extends Controller
@@ -14,28 +14,29 @@ class KbArticleController extends Controller
     {
         $query = KbArticle::with(['category', 'author:id,name'])
             ->where('tenant_id', $request->user()->tenant_id);
-            
+
         // Búsqueda simple en SQL para MVP
-        if ($request->has('q') && !empty($request->q)) {
-            $searchTerm = '%' . $request->q . '%';
-            $query->where(function($q) use ($searchTerm) {
+        if ($request->has('q') && ! empty($request->q)) {
+            $searchTerm = '%'.$request->q.'%';
+            $query->where(function ($q) use ($searchTerm) {
                 $q->where('title', 'LIKE', $searchTerm)
-                  ->orWhere('content', 'LIKE', $searchTerm)
-                  ->orWhere('excerpt', 'LIKE', $searchTerm);
+                    ->orWhere('content', 'LIKE', $searchTerm)
+                    ->orWhere('excerpt', 'LIKE', $searchTerm);
             });
         }
-        
+
         if ($request->has('category_id')) {
             $query->where('category_id', $request->category_id);
         }
 
-        // Si es público, solo ver 'published' (esto requeriría un flag en el request si lo abstraemos, 
+        // Si es público, solo ver 'published' (esto requeriría un flag en el request si lo abstraemos,
         // pero por ahora todo está detrás de auth)
-        if (!$request->user()->hasPermissionTo('manage articles')) {
-             $query->where('status', 'published');
+        if (! $request->user()->hasPermissionTo('manage articles')) {
+            $query->where('status', 'published');
         }
 
         $articles = $query->orderBy('created_at', 'desc')->paginate(15);
+
         return response()->json($articles);
     }
 
@@ -55,7 +56,7 @@ class KbArticleController extends Controller
     public function store(Request $request)
     {
         // En MVP requerimos permiso para crear.
-        if (!$request->user()->hasPermissionTo('create articles')) {
+        if (! $request->user()->hasPermissionTo('create articles')) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
@@ -87,16 +88,18 @@ class KbArticleController extends Controller
             $this->createVersion($article, 1, $request->user()->id);
 
             DB::commit();
+
             return response()->json($article, 201);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
     public function update(Request $request, $id)
     {
-        if (!$request->user()->hasPermissionTo('edit articles')) {
+        if (! $request->user()->hasPermissionTo('edit articles')) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
@@ -123,9 +126,11 @@ class KbArticleController extends Controller
             $this->createVersion($article, $nextVersion, $request->user()->id);
 
             DB::commit();
+
             return response()->json($article);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }

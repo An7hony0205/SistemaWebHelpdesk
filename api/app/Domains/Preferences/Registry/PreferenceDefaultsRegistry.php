@@ -36,7 +36,7 @@ class PreferenceDefaultsRegistry
             default => [],
         };
     }
-    
+
     public static function getAllDefaults(): array
     {
         return [

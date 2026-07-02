@@ -2,9 +2,9 @@
 
 namespace App\Domains\Integrations\Controllers;
 
+use App\Domains\Integrations\Models\WebhookEndpoint;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Domains\Integrations\Models\WebhookEndpoint;
 use Illuminate\Support\Str;
 
 class WebhookEndpointController extends Controller
@@ -14,7 +14,7 @@ class WebhookEndpointController extends Controller
         $endpoints = WebhookEndpoint::with('events')
             ->where('tenant_id', $request->user()->tenant_id)
             ->get();
-            
+
         return response()->json($endpoints);
     }
 
@@ -43,8 +43,9 @@ class WebhookEndpointController extends Controller
     public function logs(Request $request, $id)
     {
         $endpoint = WebhookEndpoint::where('tenant_id', $request->user()->tenant_id)->findOrFail($id);
-        
+
         $logs = $endpoint->logs()->orderBy('created_at', 'desc')->take(50)->get();
+
         return response()->json($logs);
     }
 
@@ -52,7 +53,7 @@ class WebhookEndpointController extends Controller
     {
         $endpoint = WebhookEndpoint::where('tenant_id', $request->user()->tenant_id)->findOrFail($id);
         $endpoint->delete();
-        
+
         return response()->json(null, 204);
     }
 }

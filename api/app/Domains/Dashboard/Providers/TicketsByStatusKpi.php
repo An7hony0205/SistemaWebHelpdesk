@@ -21,10 +21,10 @@ class TicketsByStatusKpi implements KpiProviderInterface
             ->where('tickets.tenant_id', $tenant->id)
             ->whereBetween('tickets.created_at', [$start, $end]);
 
-        if ($user && !$user->hasRole('Admin')) {
-            $query->where(function($q) use ($user) {
+        if ($user && ! $user->hasRole('Admin')) {
+            $query->where(function ($q) use ($user) {
                 $q->where('tickets.user_id', $user->id)
-                  ->orWhere('tickets.assigned_to', $user->id);
+                    ->orWhere('tickets.assigned_to', $user->id);
             });
         }
 

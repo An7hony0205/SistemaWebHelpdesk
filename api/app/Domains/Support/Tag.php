@@ -2,9 +2,8 @@
 
 namespace App\Domains\Support;
 
-use App\Domains\Identity\Tenant;
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant;
+use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {

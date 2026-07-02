@@ -41,31 +41,54 @@ const getStatusVariant = (status) => {
 <template>
   <div class="space-y-6 font-body">
     <div class="flex justify-between items-center">
-      <h2 class="text-2xl font-bold font-brand text-content">Auditoría de Notificaciones</h2>
+      <h2 class="text-2xl font-bold font-brand text-content">
+        Auditoría de Notificaciones
+      </h2>
     </div>
 
-    <div v-if="loading" class="flex justify-center py-8">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    <div
+      v-if="loading"
+      class="flex justify-center py-8"
+    >
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
     </div>
     
-    <HdCard v-else :noPadding="true">
-      <HdTable :columns="columns" :items="logs">
+    <HdCard
+      v-else
+      :no-padding="true"
+    >
+      <HdTable
+        :columns="columns"
+        :items="logs"
+      >
         <template #cell(created_at)="{ value }">
           <span class="text-muted">{{ new Date(value).toLocaleString() }}</span>
         </template>
         <template #cell(user)="{ item }">
-          <div class="text-content font-medium">{{ item.user?.name || 'Desconocido' }}</div>
-          <div class="text-xs text-muted">{{ item.user?.email }}</div>
+          <div class="text-content font-medium">
+            {{ item.user?.name || 'Desconocido' }}
+          </div>
+          <div class="text-xs text-muted">
+            {{ item.user?.email }}
+          </div>
         </template>
         <template #cell(event)="{ item }">
-          <div class="font-medium text-content">{{ item.event_name }}</div>
-          <div class="capitalize text-xs text-muted">{{ item.channel }}</div>
+          <div class="font-medium text-content">
+            {{ item.event_name }}
+          </div>
+          <div class="capitalize text-xs text-muted">
+            {{ item.channel }}
+          </div>
         </template>
         <template #cell(status)="{ item }">
           <HdBadge :variant="getStatusVariant(item.status)">
             {{ item.status }}
           </HdBadge>
-          <div v-if="item.error_message" class="text-xs text-danger mt-1 truncate max-w-xs" :title="item.error_message">
+          <div
+            v-if="item.error_message"
+            class="text-xs text-danger mt-1 truncate max-w-xs"
+            :title="item.error_message"
+          >
             {{ item.error_message }}
           </div>
         </template>

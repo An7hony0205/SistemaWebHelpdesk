@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Domains\Notifications\Models\NotificationPreference;
 use App\Domains\Identity\User;
+use App\Domains\Notifications\Models\NotificationPreference;
+use Illuminate\Http\Request;
 
 class NotificationPreferenceController extends Controller
 {
@@ -22,7 +22,7 @@ class NotificationPreferenceController extends Controller
         $request->validate([
             'event_name' => 'required|string',
             'channels' => 'required|array',
-            'channels.*' => 'string'
+            'channels.*' => 'string',
         ]);
 
         $preference = NotificationPreference::updateOrCreate(

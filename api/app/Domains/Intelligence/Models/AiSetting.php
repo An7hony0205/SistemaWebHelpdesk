@@ -2,15 +2,15 @@
 
 namespace App\Domains\Intelligence\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant;
+use Illuminate\Database\Eloquent\Model;
 
 class AiSetting extends Model
 {
     use BelongsToTenant;
 
     protected $fillable = [
-        'tenant_id', 'openai_api_key', 'is_triage_enabled', 'is_sentiment_enabled'
+        'tenant_id', 'openai_api_key', 'is_triage_enabled', 'is_sentiment_enabled',
     ];
 
     protected $casts = [

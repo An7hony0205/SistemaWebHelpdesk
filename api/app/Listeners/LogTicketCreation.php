@@ -11,16 +11,14 @@ class LogTicketCreation implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function handle(TicketCreated $event): void
     {
-        Log::info("Nuevo ticket creado en sistema", [
+        Log::info('Nuevo ticket creado en sistema', [
             'ticket_id' => $event->ticket->id,
             'title' => $event->ticket->title,
-            'user_id' => $event->ticket->user_id
+            'user_id' => $event->ticket->user_id,
         ]);
     }
 }

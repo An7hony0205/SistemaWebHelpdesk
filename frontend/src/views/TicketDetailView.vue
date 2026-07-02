@@ -81,21 +81,40 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="loading" class="p-6 text-center text-muted font-body">Cargando detalles del ticket...</div>
-  <div v-else-if="!ticket" class="p-6 text-center text-danger font-body">Ticket no encontrado</div>
+  <div
+    v-if="loading"
+    class="p-6 text-center text-muted font-body"
+  >
+    Cargando detalles del ticket...
+  </div>
+  <div
+    v-else-if="!ticket"
+    class="p-6 text-center text-danger font-body"
+  >
+    Ticket no encontrado
+  </div>
   
-  <div v-else class="max-w-5xl mx-auto space-y-6">
+  <div
+    v-else
+    class="max-w-5xl mx-auto space-y-6"
+  >
     <div class="flex items-center space-x-4 mb-4">
-      <HdButton variant="ghost" size="sm" @click="router.push('/tickets')">
+      <HdButton
+        variant="ghost"
+        size="sm"
+        @click="router.push('/tickets')"
+      >
         &larr; Volver a Tickets
       </HdButton>
     </div>
 
     <!-- Encabezado del Ticket -->
-    <HdCard :noPadding="false">
+    <HdCard :no-padding="false">
       <div class="flex justify-between items-start">
         <div>
-          <h2 class="text-2xl font-brand font-bold text-content mb-2">#{{ ticket.id }} - {{ ticket.title }}</h2>
+          <h2 class="text-2xl font-brand font-bold text-content mb-2">
+            #{{ ticket.id }} - {{ ticket.title }}
+          </h2>
           <div class="flex items-center space-x-3 text-sm text-muted">
             <span>Creado por: {{ ticket.user?.name || 'Desconocido' }}</span>
             <span>&bull;</span>
@@ -104,7 +123,10 @@ onMounted(async () => {
             <span>{{ new Date(ticket.created_at).toLocaleString() }}</span>
           </div>
         </div>
-        <HdBadge :variant="ticket.status?.name === 'Abierto' ? 'success' : 'neutral'" size="lg">
+        <HdBadge
+          :variant="ticket.status?.name === 'Abierto' ? 'success' : 'neutral'"
+          size="lg"
+        >
           {{ ticket.status?.name || ticket.status_id }}
         </HdBadge>
       </div>
@@ -116,14 +138,27 @@ onMounted(async () => {
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <!-- Columna Principal: Comentarios y Timeline -->
       <div class="md:col-span-2 space-y-6">
-        
         <!-- Respuesta -->
-        <HdCard :noPadding="false">
+        <HdCard :no-padding="false">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-brand font-medium text-content">Añadir Respuesta</h3>
-            <select v-if="macros.length > 0" @change="insertMacro" class="text-sm border border-subtle bg-surface text-content rounded px-2 py-1">
-              <option value="">Insertar Macro...</option>
-              <option v-for="macro in macros" :key="macro.id" :value="macro.id">{{ macro.title }}</option>
+            <h3 class="text-lg font-brand font-medium text-content">
+              Añadir Respuesta
+            </h3>
+            <select
+              v-if="macros.length > 0"
+              class="text-sm border border-subtle bg-surface text-content rounded px-2 py-1"
+              @change="insertMacro"
+            >
+              <option value="">
+                Insertar Macro...
+              </option>
+              <option
+                v-for="macro in macros"
+                :key="macro.id"
+                :value="macro.id"
+              >
+                {{ macro.title }}
+              </option>
             </select>
           </div>
           <HdTextarea 
@@ -133,7 +168,11 @@ onMounted(async () => {
             class="mb-4"
           />
           <div class="flex justify-end">
-            <HdButton variant="primary" @click="submitComment" :disabled="submitting || !newComment">
+            <HdButton
+              variant="primary"
+              :disabled="submitting || !newComment"
+              @click="submitComment"
+            >
               {{ submitting ? 'Enviando...' : 'Responder' }}
             </HdButton>
           </div>
@@ -141,24 +180,38 @@ onMounted(async () => {
 
         <!-- Comentarios y Actividad -->
         <div class="space-y-4">
-          <h3 class="text-lg font-brand font-medium text-content">Timeline del Ticket</h3>
+          <h3 class="text-lg font-brand font-medium text-content">
+            Timeline del Ticket
+          </h3>
           
-          <div v-if="activities.length === 0" class="text-muted text-sm italic">
+          <div
+            v-if="activities.length === 0"
+            class="text-muted text-sm italic"
+          >
             No hay actividad registrada.
           </div>
 
           <div class="relative border-l-2 border-subtle ml-4 space-y-6">
-            <div v-for="activity in activities" :key="activity.id" class="ml-6 relative">
-              <span class="absolute -left-8 top-1 w-4 h-4 rounded-full bg-surface border-2 border-primary"></span>
+            <div
+              v-for="activity in activities"
+              :key="activity.id"
+              class="ml-6 relative"
+            >
+              <span class="absolute -left-8 top-1 w-4 h-4 rounded-full bg-surface border-2 border-primary" />
               <div class="bg-surface p-4 rounded-lg shadow-sm border border-subtle">
                 <p class="text-sm font-medium text-content">
                   {{ activity.causer ? activity.causer.name : 'Sistema' }} 
                   <span class="text-muted font-normal">{{ activity.description }}</span>
                 </p>
-                <div v-if="activity.properties && Object.keys(activity.properties).length > 0" class="mt-2 text-xs text-muted bg-surface-elevated p-2 rounded">
+                <div
+                  v-if="activity.properties && Object.keys(activity.properties).length > 0"
+                  class="mt-2 text-xs text-muted bg-surface-elevated p-2 rounded"
+                >
                   <pre class="whitespace-pre-wrap">{{ JSON.stringify(activity.properties, null, 2) }}</pre>
                 </div>
-                <p class="text-xs text-muted mt-2">{{ new Date(activity.created_at).toLocaleString() }}</p>
+                <p class="text-xs text-muted mt-2">
+                  {{ new Date(activity.created_at).toLocaleString() }}
+                </p>
               </div>
             </div>
           </div>
@@ -167,8 +220,10 @@ onMounted(async () => {
 
       <!-- Columna Lateral: Detalles y Metadatos -->
       <div class="space-y-6">
-        <HdCard :noPadding="false">
-          <h3 class="text-lg font-brand font-medium text-content mb-4">Detalles</h3>
+        <HdCard :no-padding="false">
+          <h3 class="text-lg font-brand font-medium text-content mb-4">
+            Detalles
+          </h3>
           <div class="space-y-4 text-sm font-body">
             <div>
               <span class="text-muted block mb-1">Asignado a:</span>

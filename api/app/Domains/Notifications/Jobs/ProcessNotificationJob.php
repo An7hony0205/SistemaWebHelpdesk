@@ -2,21 +2,23 @@
 
 namespace App\Domains\Notifications\Jobs;
 
+use App\Domains\Identity\User;
+use App\Domains\Notifications\Channels\EmailChannel;
+use App\Domains\Notifications\Channels\NotificationChannelInterface;
+use App\Domains\Notifications\Models\NotificationLog;
+use App\Domains\Notifications\Models\NotificationTemplate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Domains\Notifications\Models\NotificationTemplate;
-use App\Domains\Notifications\Models\NotificationLog;
-use App\Domains\Notifications\Channels\NotificationChannelInterface;
-use App\Domains\Identity\User;
 
 class ProcessNotificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $tries = 3;
+
     public $backoff = [10, 30, 60];
 
     public function __construct(
@@ -30,7 +32,9 @@ class ProcessNotificationJob implements ShouldQueue
     public function handle(): void
     {
         $recipient = User::find($this->recipientId);
-        if (!$recipient) return;
+        if (! $recipient) {
+            return;
+        }
 
         // 1. Fetch Template
         $template = NotificationTemplate::where('tenant_id', $this->tenantId)
@@ -38,7 +42,7 @@ class ProcessNotificationJob implements ShouldQueue
             ->where('channel', $this->channelName)
             ->first();
 
-        if (!$template) {
+        if (! $template) {
             // Si no hay plantilla, no enviamos nada
             return;
         }
@@ -49,8 +53,9 @@ class ProcessNotificationJob implements ShouldQueue
 
         // 3. Resolve Channel
         $channel = $this->resolveChannel($this->channelName);
-        if (!$channel) {
-            $this->logNotification($recipient->id, 'failed', 'Channel not implemented: ' . $this->channelName);
+        if (! $channel) {
+            $this->logNotification($recipient->id, 'failed', 'Channel not implemented: '.$this->channelName);
+
             return;
         }
 
@@ -64,7 +69,7 @@ class ProcessNotificationJob implements ShouldQueue
         } else {
             $this->logNotification($recipient->id, 'failed', 'Channel send method returned false');
             // Lanzamos excepcion para que el Job reintente
-            throw new \Exception("Failed to send notification via " . $this->channelName);
+            throw new \Exception('Failed to send notification via '.$this->channelName);
         }
     }
 
@@ -73,18 +78,20 @@ class ProcessNotificationJob implements ShouldQueue
         $rendered = $template;
         foreach ($data as $key => $value) {
             if (is_scalar($value)) {
-                $rendered = str_replace('{{ ' . $key . ' }}', (string)$value, $rendered);
-                $rendered = str_replace('{{' . $key . '}}', (string)$value, $rendered);
+                $rendered = str_replace('{{ '.$key.' }}', (string) $value, $rendered);
+                $rendered = str_replace('{{'.$key.'}}', (string) $value, $rendered);
             }
         }
+
         return $rendered;
     }
 
     private function resolveChannel(string $channelName): ?NotificationChannelInterface
     {
         if ($channelName === 'email') {
-            return new \App\Domains\Notifications\Channels\EmailChannel();
+            return new EmailChannel;
         }
+
         return null;
     }
 
@@ -93,6 +100,7 @@ class ProcessNotificationJob implements ShouldQueue
         if ($channelName === 'email') {
             return $user->email;
         }
+
         return '';
     }
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Domains\Identity\Tenant;
 use App\Domains\Identity\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,7 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $tenant = \App\Domains\Identity\Tenant::create([
+        $tenant = Tenant::create([
             'name' => 'Organizacion Principal',
         ]);
 

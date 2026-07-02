@@ -2,12 +2,12 @@
 
 namespace App\Domains\Support\UseCases;
 
-use App\DTOs\TicketCreateDTO;
-use App\Domains\Support\Ticket;
 use App\Domains\Administration\Status;
+use App\Domains\Support\Ticket;
+use App\DTOs\TicketCreateDTO;
+use App\Events\TicketCreated;
 use App\Repositories\TicketRepositoryInterface;
 use Illuminate\Support\Facades\Event;
-use App\Events\TicketCreated;
 
 class CreateTicketUseCase
 {
@@ -18,7 +18,7 @@ class CreateTicketUseCase
     public function execute(TicketCreateDTO $dto): Ticket
     {
         $statusAbierto = Status::where('name', 'Abierto')->first();
-        
+
         $ticket = $this->ticketRepository->create([
             'user_id' => $dto->userId,
             'category_id' => $dto->categoryId,

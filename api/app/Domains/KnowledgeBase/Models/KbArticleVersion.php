@@ -2,8 +2,8 @@
 
 namespace App\Domains\KnowledgeBase\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Domains\Identity\User;
+use Illuminate\Database\Eloquent\Model;
 
 class KbArticleVersion extends Model
 {

@@ -2,26 +2,27 @@
 
 require __DIR__.'/vendor/autoload.php';
 $app = require_once __DIR__.'/bootstrap/app.php';
-$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel = $app->make(Kernel::class);
 $kernel->bootstrap();
 
-use App\Domains\Identity\User;
 use App\Domains\Identity\Tenant;
-use Spatie\Permission\Models\Role;
+use App\Domains\Identity\User;
+use Illuminate\Contracts\Console\Kernel;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 $tenant = Tenant::first();
-if (!$tenant) {
+if (! $tenant) {
     $tenant = Tenant::create(['name' => 'Organizacion Principal']);
 }
 
 $user = User::where('email', 'test@example.com')->first();
-if (!$user) {
+if (! $user) {
     $user = User::create([
         'name' => 'Admin Test',
         'email' => 'test@example.com',
         'password' => bcrypt('password'),
-        'tenant_id' => $tenant->id
+        'tenant_id' => $tenant->id,
     ]);
 }
 

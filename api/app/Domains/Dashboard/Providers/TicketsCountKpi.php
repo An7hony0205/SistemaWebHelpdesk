@@ -23,10 +23,10 @@ class TicketsCountKpi implements KpiProviderInterface
         if ($user) {
             // Si el dashboard es de un usuario, podría ver solo sus tickets asignados.
             // O dependiendo del rol, puede ver todos. Para MVP, si hay user, filtramos.
-            if (!$user->hasRole('Admin')) {
-                $query->where(function($q) use ($user) {
+            if (! $user->hasRole('Admin')) {
+                $query->where(function ($q) use ($user) {
                     $q->where('user_id', $user->id)
-                      ->orWhere('assigned_to', $user->id);
+                        ->orWhere('assigned_to', $user->id);
                 });
             }
         }

@@ -2,8 +2,8 @@
 
 namespace App\Domains\KnowledgeBase\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class KbCategory extends Model
@@ -16,7 +16,7 @@ class KbCategory extends Model
     {
         parent::boot();
         static::creating(function ($category) {
-            if (!$category->slug) {
+            if (! $category->slug) {
                 $category->slug = Str::slug($category->name);
             }
         });

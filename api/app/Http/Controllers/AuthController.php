@@ -15,7 +15,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (! Auth::attempt($request->only('email', 'password'))) {
             throw ValidationException::withMessages([
                 'email' => ['Las credenciales proporcionadas son incorrectas.'],
             ]);
@@ -24,7 +24,7 @@ class AuthController extends Controller
         $user = Auth::user();
         $user->load('roles');
         $user->all_permissions = $user->getAllPermissions()->pluck('name');
-        
+
         return response()->json([
             'user' => $user,
             'token' => $user->createToken('auth_token')->plainTextToken,
@@ -36,7 +36,7 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'Sesión cerrada correctamente'
+            'message' => 'Sesión cerrada correctamente',
         ]);
     }
 
@@ -45,7 +45,7 @@ class AuthController extends Controller
         $user = $request->user();
         $user->load('roles');
         $user->all_permissions = $user->getAllPermissions()->pluck('name');
-        
+
         return response()->json($user);
     }
 }

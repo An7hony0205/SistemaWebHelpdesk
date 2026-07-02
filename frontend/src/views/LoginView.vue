@@ -26,8 +26,8 @@ const handleLogin = async () => {
 <template>
   <div class="min-h-screen bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
     <!-- Efecto de gradiente de fondo (glassmorphism) -->
-    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary/20 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-surface rounded-full blur-3xl"></div>
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
+    <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-surface rounded-full blur-3xl" />
 
     <div class="sm:mx-auto sm:w-full sm:max-w-md relative z-10 mb-8">
       <h2 class="mt-6 text-center text-3xl font-brand font-bold text-content">
@@ -40,7 +40,10 @@ const handleLogin = async () => {
 
     <div class="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
       <HdCard>
-        <form class="space-y-6" @submit.prevent="handleLogin">
+        <form
+          class="space-y-6"
+          @submit.prevent="handleLogin"
+        >
           <HdInput 
             v-model="email" 
             label="Email" 
@@ -57,11 +60,18 @@ const handleLogin = async () => {
             placeholder="••••••••"
           />
 
-          <div v-if="errorMsg" class="text-danger text-sm font-medium">
+          <div
+            v-if="errorMsg"
+            class="text-danger text-sm font-medium"
+          >
             {{ errorMsg }}
           </div>
 
-          <HdButton type="submit" variant="primary" class="w-full">
+          <HdButton
+            type="submit"
+            variant="primary"
+            class="w-full"
+          >
             Entrar
           </HdButton>
         </form>

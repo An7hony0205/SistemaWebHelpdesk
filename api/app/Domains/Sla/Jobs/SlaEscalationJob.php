@@ -2,12 +2,12 @@
 
 namespace App\Domains\Sla\Jobs;
 
+use App\Domains\Sla\TicketSla;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Domains\Sla\TicketSla;
 use Illuminate\Support\Facades\Event;
 
 class SlaEscalationJob implements ShouldQueue

@@ -22,11 +22,11 @@ class BusinessTimeServiceTest extends TestCase
             'friday' => ['09:00-18:00'],
         ]);
 
-        $service = new BusinessTimeService();
+        $service = new BusinessTimeService;
 
         // Viernes a las 17:00
         $start = Carbon::create(2023, 10, 6, 17, 0, 0, 'UTC'); // 2023-10-06 was a Friday
-        
+
         // Sumar 120 minutos (2 horas)
         // 1 hora se consume el viernes (hasta las 18:00)
         // La otra hora pasa al lunes a las 09:00, resultando en Lunes a las 10:00

@@ -2,16 +2,17 @@
 
 require __DIR__.'/vendor/autoload.php';
 $app = require_once __DIR__.'/bootstrap/app.php';
-$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel = $app->make(Kernel::class);
 $kernel->bootstrap();
 
-use App\Domains\Identity\User;
-use Spatie\Permission\Models\Role;
 use App\Domains\Identity\Tenant;
+use App\Domains\Identity\User;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 $tenant = Tenant::first();
-if (!$tenant) {
+if (! $tenant) {
     $tenant = Tenant::create(['name' => 'Default Tenant', 'domain' => 'default']);
 }
 
@@ -21,21 +22,21 @@ echo "USUARIOS DE PRUEBA POR ROL\n";
 echo "=============================\n\n";
 
 foreach ($roles as $role) {
-    $email = strtolower($role->name) . '@test.com';
+    $email = strtolower($role->name).'@test.com';
     $user = User::where('email', $email)->first();
-    
-    if (!$user) {
+
+    if (! $user) {
         $user = User::create([
             'tenant_id' => $tenant->id,
-            'name' => 'Usuario ' . $role->name,
+            'name' => 'Usuario '.$role->name,
             'email' => $email,
-            'password' => Hash::make('password')
+            'password' => Hash::make('password'),
         ]);
         $user->roles()->attach($role->id);
     }
-    
-    echo "Rol: " . $role->name . "\n";
-    echo "Email: " . $user->email . "\n";
+
+    echo 'Rol: '.$role->name."\n";
+    echo 'Email: '.$user->email."\n";
     echo "Password: password\n";
     echo "-----------------------------\n";
 }

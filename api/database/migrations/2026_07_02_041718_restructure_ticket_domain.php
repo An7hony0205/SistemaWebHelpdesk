@@ -57,7 +57,7 @@ return new class extends Migration
         Schema::dropIfExists('ticket_attachments');
         Schema::dropIfExists('ticket_tag');
         Schema::dropIfExists('tags');
-        
+
         Schema::table('ticket_comments', function (Blueprint $table) {
             $table->dropColumn('is_internal');
         });

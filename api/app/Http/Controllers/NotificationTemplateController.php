@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Domains\Notifications\Models\NotificationTemplate;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class NotificationTemplateController extends Controller
 {
@@ -12,17 +12,18 @@ class NotificationTemplateController extends Controller
 
     public function index(Request $request)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $templates = NotificationTemplate::where('tenant_id', $request->user()->tenant_id)->get();
+
         return response()->json($templates);
     }
 
     public function store(Request $request)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -49,7 +50,7 @@ class NotificationTemplateController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -71,7 +72,7 @@ class NotificationTemplateController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -83,10 +84,10 @@ class NotificationTemplateController extends Controller
 
     public function preview(Request $request)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
-        
+
         $request->validate([
             'subject_template' => 'nullable|string',
             'body_template' => 'required|string',
@@ -107,10 +108,11 @@ class NotificationTemplateController extends Controller
         $rendered = $template;
         foreach ($data as $key => $value) {
             if (is_scalar($value)) {
-                $rendered = str_replace('{{ ' . $key . ' }}', (string)$value, $rendered);
-                $rendered = str_replace('{{' . $key . '}}', (string)$value, $rendered);
+                $rendered = str_replace('{{ '.$key.' }}', (string) $value, $rendered);
+                $rendered = str_replace('{{'.$key.'}}', (string) $value, $rendered);
             }
         }
+
         return $rendered;
     }
 }

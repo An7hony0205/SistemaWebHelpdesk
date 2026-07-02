@@ -2,15 +2,18 @@
 
 namespace App\Domains\Support;
 
+use App\Domains\Identity\Tenant;
+use App\Domains\Identity\User;
+use App\Domains\Sla\TicketSla;
+use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToTenant;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Ticket extends Model
 {
-    use HasFactory, BelongsToTenant, LogsActivity;
+    use BelongsToTenant, HasFactory, LogsActivity;
 
     protected $fillable = [
         'tenant_id',
@@ -39,17 +42,17 @@ class Ticket extends Model
 
     public function tenant()
     {
-        return $this->belongsTo(\App\Domains\Identity\Tenant::class);
+        return $this->belongsTo(Tenant::class);
     }
 
     public function user()
     {
-        return $this->belongsTo(\App\Domains\Identity\User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function assignedUser()
     {
-        return $this->belongsTo(\App\Domains\Identity\User::class, 'assigned_to');
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 
     public function category()
@@ -74,6 +77,6 @@ class Ticket extends Model
 
     public function sla()
     {
-        return $this->hasOne(\App\Domains\Sla\TicketSla::class);
+        return $this->hasOne(TicketSla::class);
     }
 }

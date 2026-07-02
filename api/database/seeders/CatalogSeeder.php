@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Domains\Administration\Priority;
+use App\Domains\Administration\Status;
 use Illuminate\Database\Seeder;
 
 class CatalogSeeder extends Seeder
@@ -21,7 +22,7 @@ class CatalogSeeder extends Seeder
         ];
 
         foreach ($statuses as $status) {
-            \App\Domains\Administration\Status::firstOrCreate(['name' => $status['name']], $status);
+            Status::firstOrCreate(['name' => $status['name']], $status);
         }
 
         $priorities = [
@@ -32,7 +33,7 @@ class CatalogSeeder extends Seeder
         ];
 
         foreach ($priorities as $priority) {
-            \App\Domains\Administration\Priority::firstOrCreate(['name' => $priority['name']], $priority);
+            Priority::firstOrCreate(['name' => $priority['name']], $priority);
         }
     }
 }

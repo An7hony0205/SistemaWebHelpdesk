@@ -61,37 +61,58 @@ onMounted(() => {
   <div class="space-y-6 max-w-4xl mx-auto font-body">
     <div>
       <h2 class="text-2xl font-bold font-brand text-content flex items-center">
-        <svg class="w-6 h-6 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        <svg
+          class="w-6 h-6 mr-2 text-accent"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 10V3L4 14h7v7l9-11h-7z"
+        /></svg>
         Inteligencia Artificial (IA)
       </h2>
-      <p class="text-sm text-muted mt-1">Configura las capacidades de IA para potenciar tu HelpDesk.</p>
+      <p class="text-sm text-muted mt-1">
+        Configura las capacidades de IA para potenciar tu HelpDesk.
+      </p>
     </div>
 
-    <div v-if="loading" class="flex justify-center py-12">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    <div
+      v-if="loading"
+      class="flex justify-center py-12"
+    >
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
     </div>
 
-    <HdCard v-else :noPadding="true">
+    <HdCard
+      v-else
+      :no-padding="true"
+    >
       <div class="p-6 space-y-6">
-        
         <!-- API Key Provider -->
         <div class="space-y-3 pb-6 border-b border-subtle">
-          <h3 class="text-lg font-medium font-brand text-content">Proveedor de IA (OpenAI)</h3>
-          <p class="text-sm text-muted">Ingresa tu API Key de OpenAI para habilitar las funcionalidades impulsadas por LLMs.</p>
+          <h3 class="text-lg font-medium font-brand text-content">
+            Proveedor de IA (OpenAI)
+          </h3>
+          <p class="text-sm text-muted">
+            Ingresa tu API Key de OpenAI para habilitar las funcionalidades impulsadas por LLMs.
+          </p>
           
           <div>
             <label class="block text-sm font-medium text-muted mb-1">OpenAI API Key</label>
             <div class="flex rounded-md shadow-sm">
               <input 
-                :type="showKey ? 'text' : 'password'" 
-                v-model="settings.openai_api_key"
+                v-model="settings.openai_api_key" 
+                :type="showKey ? 'text' : 'password'"
                 class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-l-md border border-subtle bg-black/5 dark:bg-white/5 text-content focus:ring-primary focus:border-primary sm:text-sm"
                 placeholder="sk-..."
               >
               <button 
                 type="button" 
-                @click="showKey = !showKey"
                 class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-subtle bg-surface-elevated text-muted text-sm hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                @click="showKey = !showKey"
               >
                 {{ showKey ? 'Ocultar' : 'Mostrar' }}
               </button>
@@ -101,15 +122,22 @@ onMounted(() => {
 
         <!-- Capacidades -->
         <div class="space-y-6">
-          <h3 class="text-lg font-medium font-brand text-content">Capacidades del Sistema</h3>
+          <h3 class="text-lg font-medium font-brand text-content">
+            Capacidades del Sistema
+          </h3>
           
           <div class="flex items-start">
             <div class="flex items-center h-5">
               <HdToggle v-model="settings.is_triage_enabled" />
             </div>
             <div class="ml-3 text-sm">
-              <label class="font-medium text-content cursor-pointer" @click="settings.is_triage_enabled = !settings.is_triage_enabled">Auto-Triaje de Tickets</label>
-              <p class="text-muted">La IA leerá el contenido de los tickets nuevos y sugerirá automáticamente la Categoría y Prioridad adecuada.</p>
+              <label
+                class="font-medium text-content cursor-pointer"
+                @click="settings.is_triage_enabled = !settings.is_triage_enabled"
+              >Auto-Triaje de Tickets</label>
+              <p class="text-muted">
+                La IA leerá el contenido de los tickets nuevos y sugerirá automáticamente la Categoría y Prioridad adecuada.
+              </p>
             </div>
           </div>
 
@@ -118,20 +146,23 @@ onMounted(() => {
               <HdToggle v-model="settings.is_sentiment_enabled" />
             </div>
             <div class="ml-3 text-sm">
-              <label class="font-medium text-content cursor-pointer" @click="settings.is_sentiment_enabled = !settings.is_sentiment_enabled">Análisis de Sentimiento</label>
-              <p class="text-muted">Analiza el tono de los mensajes de los clientes para identificar frustración y escalar preventivamente.</p>
+              <label
+                class="font-medium text-content cursor-pointer"
+                @click="settings.is_sentiment_enabled = !settings.is_sentiment_enabled"
+              >Análisis de Sentimiento</label>
+              <p class="text-muted">
+                Analiza el tono de los mensajes de los clientes para identificar frustración y escalar preventivamente.
+              </p>
             </div>
           </div>
-
         </div>
-
       </div>
       
       <div class="bg-surface-elevated px-6 py-4 flex justify-end border-t border-subtle">
         <HdButton 
-          @click="saveSettings" 
-          :disabled="saving"
+          :disabled="saving" 
           variant="primary"
+          @click="saveSettings"
         >
           {{ saving ? 'Guardando...' : 'Guardar Configuración' }}
         </HdButton>

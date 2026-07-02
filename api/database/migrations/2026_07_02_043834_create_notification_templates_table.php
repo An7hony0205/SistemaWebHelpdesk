@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('subject_template')->nullable();
             $table->text('body_template');
             $table->timestamps();
-            
+
             $table->unique(['tenant_id', 'event_name', 'channel', 'locale'], 'notif_tpl_unique');
         });
     }

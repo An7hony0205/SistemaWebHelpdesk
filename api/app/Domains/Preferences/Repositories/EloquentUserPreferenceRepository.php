@@ -23,7 +23,7 @@ class EloquentUserPreferenceRepository implements UserPreferenceRepositoryInterf
     public function getAll(int $userId): array
     {
         $preferences = UserPreference::where('user_id', $userId)->get()->keyBy('category');
-        
+
         $allDefaults = PreferenceDefaultsRegistry::getAllDefaults();
         $result = [];
 
@@ -43,7 +43,7 @@ class EloquentUserPreferenceRepository implements UserPreferenceRepositoryInterf
         ]);
 
         $currentSettings = $preference->settings ?? [];
-        
+
         // JSON merge
         $preference->settings = array_merge($currentSettings, $settings);
         $preference->save();

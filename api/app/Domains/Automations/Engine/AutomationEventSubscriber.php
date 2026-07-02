@@ -2,8 +2,9 @@
 
 namespace App\Domains\Automations\Engine;
 
+use App\Domains\Support\Events\TicketCreated;
+use App\Domains\Support\Events\TicketStatusChanged;
 use Illuminate\Events\Dispatcher;
-use App\Domains\Automations\Engine\AutomationEngine;
 
 class AutomationEventSubscriber
 {
@@ -31,8 +32,8 @@ class AutomationEventSubscriber
     {
         // Asumiendo que existen estas clases en App\Domains\Support\Events
         return [
-            \App\Domains\Support\Events\TicketCreated::class => 'handleTicketCreated',
-            \App\Domains\Support\Events\TicketStatusChanged::class => 'handleTicketStatusChanged',
+            TicketCreated::class => 'handleTicketCreated',
+            TicketStatusChanged::class => 'handleTicketStatusChanged',
         ];
     }
 }

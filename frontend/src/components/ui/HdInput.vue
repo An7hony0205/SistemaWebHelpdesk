@@ -35,14 +35,19 @@ defineEmits(['update:modelValue']);
 
 <template>
   <div class="w-full">
-    <label v-if="label" class="block text-sm font-medium text-muted mb-1">
-      {{ label }} <span v-if="required" class="text-danger">*</span>
+    <label
+      v-if="label"
+      class="block text-sm font-medium text-muted mb-1"
+    >
+      {{ label }} <span
+        v-if="required"
+        class="text-danger"
+      >*</span>
     </label>
     <div class="relative">
       <input
         :type="type"
         :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
         :placeholder="placeholder"
         :required="required"
         :disabled="disabled"
@@ -53,8 +58,14 @@ defineEmits(['update:modelValue']);
           disabled ? 'opacity-50 cursor-not-allowed' : '',
           error ? 'border-danger focus:ring-danger focus:border-danger' : 'border-subtle'
         ]"
+        @input="$emit('update:modelValue', $event.target.value)"
       >
     </div>
-    <p v-if="error" class="mt-1 text-sm text-danger">{{ error }}</p>
+    <p
+      v-if="error"
+      class="mt-1 text-sm text-danger"
+    >
+      {{ error }}
+    </p>
   </div>
 </template>

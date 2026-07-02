@@ -2,9 +2,11 @@
 
 namespace App\Domains\Integrations\Engine;
 
-use Illuminate\Events\Dispatcher;
-use App\Domains\Integrations\Models\WebhookEndpoint;
 use App\Domains\Integrations\Jobs\DispatchWebhookJob;
+use App\Domains\Integrations\Models\WebhookEndpoint;
+use App\Domains\Support\Events\TicketCreated;
+use App\Domains\Support\Events\TicketStatusChanged;
+use Illuminate\Events\Dispatcher;
 
 class IntegrationEventSubscriber
 {
@@ -43,8 +45,8 @@ class IntegrationEventSubscriber
     public function subscribe(Dispatcher $events): array
     {
         return [
-            \App\Domains\Support\Events\TicketCreated::class => 'handleTicketCreated',
-            \App\Domains\Support\Events\TicketStatusChanged::class => 'handleTicketStatusChanged',
+            TicketCreated::class => 'handleTicketCreated',
+            TicketStatusChanged::class => 'handleTicketStatusChanged',
         ];
     }
 }

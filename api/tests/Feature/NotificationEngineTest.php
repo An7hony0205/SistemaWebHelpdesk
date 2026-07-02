@@ -2,15 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Domains\Identity\Tenant;
+use App\Domains\Identity\User;
+use App\Domains\Notifications\Jobs\ProcessNotificationJob;
+use App\Domains\Support\Ticket;
+use App\Events\TicketCreated;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-use App\Events\TicketCreated;
-use App\Domains\Support\Ticket;
-use App\Domains\Identity\User;
-use App\Domains\Identity\Tenant;
-use App\Domains\Notifications\Jobs\ProcessNotificationJob;
+use Tests\TestCase;
 
 class NotificationEngineTest extends TestCase
 {
@@ -22,8 +22,8 @@ class NotificationEngineTest extends TestCase
 
         $tenant = Tenant::create(['name' => 'Test', 'domain' => 'test']);
         $user = User::factory()->create(['tenant_id' => $tenant->id]);
-        
-        $ticket = new Ticket();
+
+        $ticket = new Ticket;
         $ticket->id = 1;
         $ticket->tenant_id = $tenant->id;
         $ticket->user_id = $user->id;
@@ -37,8 +37,8 @@ class NotificationEngineTest extends TestCase
         Event::dispatch(new TicketCreated($ticket));
 
         Queue::assertPushed(ProcessNotificationJob::class, function ($job) use ($user) {
-            return $job->recipientId === $user->id 
-                && $job->eventName === 'TicketCreated' 
+            return $job->recipientId === $user->id
+                && $job->eventName === 'TicketCreated'
                 && $job->channelName === 'email';
         });
     }

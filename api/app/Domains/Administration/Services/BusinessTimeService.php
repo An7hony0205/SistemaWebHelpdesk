@@ -15,24 +15,26 @@ class BusinessTimeService
         $timezone = $tenant->getTimezone();
         $current = $start->copy()->setTimezone($timezone);
         $holidays = $tenant->getHolidays();
-        
+
         // Asumimos un horario estándar simple: Lunes a Viernes de 09:00 a 18:00
         // Para una implementación completa, aquí se leería el array de getBusinessHours() del Tenant.
         // Por simplicidad, implementamos la lógica base de horas hábiles fijas.
-        
+
         $businessStartHour = 9;
         $businessEndHour = 18;
-        
+
         while ($minutes > 0) {
             // Verificar si es fin de semana
             if ($current->isWeekend()) {
                 $current->addDay()->startOfDay()->addHours($businessStartHour);
+
                 continue;
             }
 
             // Verificar si es festivo
             if (in_array($current->format('Y-m-d'), $holidays)) {
                 $current->addDay()->startOfDay()->addHours($businessStartHour);
+
                 continue;
             }
 
@@ -50,6 +52,7 @@ class BusinessTimeService
             if ($minutesLeftToday <= 0) {
                 // Ya pasó la hora de cierre, saltar al día siguiente
                 $current->addDay()->startOfDay()->addHours($businessStartHour);
+
                 continue;
             }
 

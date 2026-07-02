@@ -2,8 +2,8 @@
 
 namespace App\Domains\KnowledgeBase\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class KbTag extends Model
@@ -16,7 +16,7 @@ class KbTag extends Model
     {
         parent::boot();
         static::creating(function ($tag) {
-            if (!$tag->slug) {
+            if (! $tag->slug) {
                 $tag->slug = Str::slug($tag->name);
             }
         });

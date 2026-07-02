@@ -84,17 +84,28 @@ onMounted(() => {
 </script>
 
 <template>
-  <HdCard :noPadding="true">
+  <HdCard :no-padding="true">
     <template #header>
       <div class="flex justify-between items-center">
-        <h3 class="text-lg font-medium text-content">Respuestas Predefinidas (Macros)</h3>
-        <HdButton @click="openModal()" variant="primary" size="sm">
+        <h3 class="text-lg font-medium text-content">
+          Respuestas Predefinidas (Macros)
+        </h3>
+        <HdButton
+          variant="primary"
+          size="sm"
+          @click="openModal()"
+        >
           Nueva Macro
         </HdButton>
       </div>
     </template>
     
-    <div v-if="loading" class="p-6 text-center text-muted font-body">Cargando macros...</div>
+    <div
+      v-if="loading"
+      class="p-6 text-center text-muted font-body"
+    >
+      Cargando macros...
+    </div>
     
     <HdTable 
       v-else 
@@ -111,23 +122,48 @@ onMounted(() => {
       </template>
       <template #cell(actions)="{ item }">
         <div class="flex space-x-2">
-          <HdButton variant="secondary" size="sm" @click="openModal(item)">Editar</HdButton>
-          <HdButton variant="ghost" size="sm" class="text-danger" @click="deleteMacro(item.id)">Eliminar</HdButton>
+          <HdButton
+            variant="secondary"
+            size="sm"
+            @click="openModal(item)"
+          >
+            Editar
+          </HdButton>
+          <HdButton
+            variant="ghost"
+            size="sm"
+            class="text-danger"
+            @click="deleteMacro(item.id)"
+          >
+            Eliminar
+          </HdButton>
         </div>
       </template>
     </HdTable>
 
     <!-- Modal Form -->
-    <div v-if="showModal" class="fixed inset-0 z-50 overflow-y-auto">
+    <div
+      v-if="showModal"
+      class="fixed inset-0 z-50 overflow-y-auto"
+    >
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true" @click="showModal = false">
-          <div class="absolute inset-0 bg-background/75 backdrop-blur-sm"></div>
+        <div
+          class="fixed inset-0 transition-opacity"
+          aria-hidden="true"
+          @click="showModal = false"
+        >
+          <div class="absolute inset-0 bg-background/75 backdrop-blur-sm" />
         </div>
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+        >&#8203;</span>
         <div class="relative z-10 inline-block align-bottom bg-surface rounded-lg text-left overflow-hidden shadow-modal border border-subtle transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <form @submit.prevent="saveMacro">
             <div class="px-6 pt-5 pb-4">
-              <h3 class="text-lg leading-6 font-medium font-brand text-content mb-4">{{ newMacro.id ? 'Editar Macro' : 'Nueva Macro' }}</h3>
+              <h3 class="text-lg leading-6 font-medium font-brand text-content mb-4">
+                {{ newMacro.id ? 'Editar Macro' : 'Nueva Macro' }}
+              </h3>
               <div class="space-y-4">
                 <HdInput 
                   v-model="newMacro.title" 
@@ -150,10 +186,20 @@ onMounted(() => {
               </div>
             </div>
             <div class="bg-surface-elevated px-6 py-4 sm:flex sm:flex-row-reverse border-t border-subtle">
-              <HdButton type="submit" :disabled="submitting" variant="primary" class="w-full sm:w-auto sm:ml-3">
+              <HdButton
+                type="submit"
+                :disabled="submitting"
+                variant="primary"
+                class="w-full sm:w-auto sm:ml-3"
+              >
                 {{ submitting ? 'Guardando...' : 'Guardar' }}
               </HdButton>
-              <HdButton type="button" @click="showModal = false" variant="secondary" class="mt-3 w-full sm:mt-0 sm:w-auto">
+              <HdButton
+                type="button"
+                variant="secondary"
+                class="mt-3 w-full sm:mt-0 sm:w-auto"
+                @click="showModal = false"
+              >
                 Cancelar
               </HdButton>
             </div>

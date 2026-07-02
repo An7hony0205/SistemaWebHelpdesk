@@ -2,9 +2,9 @@
 
 namespace App\Domains\Integrations\Controllers;
 
+use App\Domains\Integrations\Models\ApiKey;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Domains\Integrations\Models\ApiKey;
 use Illuminate\Support\Str;
 
 class ApiKeyController extends Controller
@@ -14,7 +14,7 @@ class ApiKeyController extends Controller
         $keys = ApiKey::where('tenant_id', $request->user()->tenant_id)
             ->orderBy('created_at', 'desc')
             ->get();
-            
+
         return response()->json($keys);
     }
 
@@ -43,7 +43,7 @@ class ApiKeyController extends Controller
     {
         $key = ApiKey::where('tenant_id', $request->user()->tenant_id)->findOrFail($id);
         $key->delete();
-        
+
         return response()->json(null, 204);
     }
 }

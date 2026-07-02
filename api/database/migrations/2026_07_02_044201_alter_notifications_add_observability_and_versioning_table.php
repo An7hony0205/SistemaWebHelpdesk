@@ -26,7 +26,7 @@ return new class extends Migration
         Schema::table('notification_templates', function (Blueprint $table) {
             $table->dropColumn('version');
         });
-        
+
         Schema::table('notification_logs', function (Blueprint $table) {
             $table->dropColumn(['retry_count', 'processing_time_ms']);
         });

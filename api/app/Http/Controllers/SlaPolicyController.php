@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Domains\Sla\SlaPolicy;
 use App\Domains\Sla\SlaTarget;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SlaPolicyController extends Controller
 {
@@ -14,7 +14,7 @@ class SlaPolicyController extends Controller
 
     public function index(Request $request)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -27,7 +27,7 @@ class SlaPolicyController extends Controller
 
     public function store(Request $request)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -74,10 +74,10 @@ class SlaPolicyController extends Controller
             throw $e;
         }
     }
-    
+
     public function show(Request $request, $id)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -90,7 +90,7 @@ class SlaPolicyController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -120,10 +120,10 @@ class SlaPolicyController extends Controller
             // Actualizar targets
             $existingTargetIds = $policy->targets()->pluck('id')->toArray();
             $incomingTargetIds = array_filter(array_column($request->targets, 'id'));
-            
+
             // Eliminar los que ya no vienen
             $targetsToDelete = array_diff($existingTargetIds, $incomingTargetIds);
-            if (!empty($targetsToDelete)) {
+            if (! empty($targetsToDelete)) {
                 SlaTarget::whereIn('id', $targetsToDelete)->delete();
             }
 
@@ -145,6 +145,7 @@ class SlaPolicyController extends Controller
             }
 
             DB::commit();
+
             return response()->json($policy->fresh('targets.priority'));
         } catch (\Exception $e) {
             DB::rollBack();
@@ -154,7 +155,7 @@ class SlaPolicyController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        if (!$request->user()->hasRole('Admin')) {
+        if (! $request->user()->hasRole('Admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

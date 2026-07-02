@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Domains\Support\Macro;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class MacroController extends Controller
 {
@@ -14,6 +14,7 @@ class MacroController extends Controller
     {
         // El trait BelongsToTenant ya filtra automáticamente por tenant
         $macros = Macro::orderBy('title')->get();
+
         return response()->json($macros);
     }
 
@@ -38,13 +39,14 @@ class MacroController extends Controller
     public function show(Request $request, $id)
     {
         $macro = Macro::findOrFail($id);
+
         return response()->json($macro);
     }
 
     public function update(Request $request, $id)
     {
         $macro = Macro::findOrFail($id);
-        
+
         $request->validate([
             'title' => 'string|max:255',
             'content' => 'string',
@@ -59,7 +61,7 @@ class MacroController extends Controller
     {
         $macro = Macro::findOrFail($id);
         $macro->delete();
-        
+
         return response()->json(null, 204);
     }
 }

@@ -33,18 +33,24 @@ defineProps({
       </thead>
       <tbody class="bg-surface divide-y divide-subtle font-body">
         <tr v-if="loading">
-          <td :colspan="columns.length" class="px-6 py-4 text-center text-sm text-muted">
+          <td
+            :colspan="columns.length"
+            class="px-6 py-4 text-center text-sm text-muted"
+          >
             Cargando...
           </td>
         </tr>
         <tr v-else-if="items.length === 0">
-          <td :colspan="columns.length" class="px-6 py-4 text-center text-sm text-muted">
+          <td
+            :colspan="columns.length"
+            class="px-6 py-4 text-center text-sm text-muted"
+          >
             No hay datos disponibles.
           </td>
         </tr>
         <tr 
-          v-else 
           v-for="(item, index) in items" 
+          v-else 
           :key="item.id || index" 
           class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
         >
@@ -53,7 +59,11 @@ defineProps({
             :key="col.key" 
             class="px-6 py-4 whitespace-nowrap text-sm text-content"
           >
-            <slot :name="'cell(' + col.key + ')'" :item="item" :value="item[col.key]">
+            <slot
+              :name="'cell(' + col.key + ')'"
+              :item="item"
+              :value="item[col.key]"
+            >
               {{ item[col.key] }}
             </slot>
           </td>

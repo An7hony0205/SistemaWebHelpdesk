@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Domains\Support\Ticket;
 use App\Domains\Identity\User;
-use Illuminate\Auth\Access\Response;
+use App\Domains\Support\Ticket;
 
 class TicketPolicy
 {

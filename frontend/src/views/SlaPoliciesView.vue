@@ -35,21 +35,36 @@ const columns = [
 <template>
   <div class="space-y-6 font-body">
     <div class="flex justify-between items-center">
-      <h2 class="text-2xl font-bold font-brand text-content">Políticas de SLA</h2>
+      <h2 class="text-2xl font-bold font-brand text-content">
+        Políticas de SLA
+      </h2>
       <HdButton variant="primary">
         Crear Política
       </HdButton>
     </div>
 
-    <div v-if="loading" class="flex justify-center py-8">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    <div
+      v-if="loading"
+      class="flex justify-center py-8"
+    >
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
     </div>
     
-    <HdCard v-else :noPadding="true">
-      <HdTable :columns="columns" :items="policies">
+    <HdCard
+      v-else
+      :no-padding="true"
+    >
+      <HdTable
+        :columns="columns"
+        :items="policies"
+      >
         <template #cell(name)="{ item }">
-          <div class="text-sm font-medium font-brand text-content">{{ item.name }}</div>
-          <div class="text-sm text-muted">{{ item.description }}</div>
+          <div class="text-sm font-medium font-brand text-content">
+            {{ item.name }}
+          </div>
+          <div class="text-sm text-muted">
+            {{ item.description }}
+          </div>
         </template>
         <template #cell(status)="{ item }">
           <HdBadge :variant="item.is_active ? 'success' : 'neutral'">
@@ -59,8 +74,14 @@ const columns = [
         <template #cell(conditions)="{ item }">
           <span class="text-muted">{{ item.conditions ? 'Configuradas' : 'Por Defecto' }}</span>
         </template>
-        <template #cell(actions)="{ item }">
-          <HdButton variant="ghost" size="sm" class="text-primary">Editar</HdButton>
+        <template #cell(actions)>
+          <HdButton
+            variant="ghost"
+            size="sm"
+            class="text-primary"
+          >
+            Editar
+          </HdButton>
         </template>
       </HdTable>
     </HdCard>

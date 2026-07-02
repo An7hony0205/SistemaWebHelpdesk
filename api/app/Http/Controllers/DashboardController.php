@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Domains\Dashboard\Services\DashboardService;
 use App\Domains\Dashboard\Models\DashboardLayout;
+use App\Domains\Dashboard\Services\DashboardService;
 use App\Domains\Identity\Tenant;
+use App\Domains\Identity\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
@@ -20,24 +21,24 @@ class DashboardController extends Controller
     public function layout(Request $request)
     {
         // MVP: Busca layout custom del usuario, luego del Tenant, o devuelve un default
-        $layout = DashboardLayout::where('configurable_type', \App\Domains\Identity\User::class)
+        $layout = DashboardLayout::where('configurable_type', User::class)
             ->where('configurable_id', $request->user()->id)
             ->first();
 
-        if (!$layout) {
+        if (! $layout) {
             $layout = DashboardLayout::where('configurable_type', Tenant::class)
                 ->where('configurable_id', $request->user()->tenant_id)
                 ->first();
         }
 
-        if (!$layout) {
+        if (! $layout) {
             // Default estático
             return response()->json([
                 'widgets_layout' => [
                     ['id' => 'tickets_count', 'type' => 'cards'],
                     ['id' => 'sla_compliance', 'type' => 'gauge'],
                     ['id' => 'tickets_by_status', 'type' => 'doughnut'],
-                ]
+                ],
             ]);
         }
 
@@ -47,12 +48,12 @@ class DashboardController extends Controller
     public function updateLayout(Request $request)
     {
         $request->validate([
-            'widgets_layout' => 'required|array'
+            'widgets_layout' => 'required|array',
         ]);
 
         $layout = DashboardLayout::updateOrCreate(
             [
-                'configurable_type' => \App\Domains\Identity\User::class,
+                'configurable_type' => User::class,
                 'configurable_id' => $request->user()->id,
             ],
             [
@@ -72,7 +73,7 @@ class DashboardController extends Controller
         ]);
 
         $period = $request->period ?? 'month';
-        $start = match($period) {
+        $start = match ($period) {
             'today' => Carbon::today(),
             'week' => Carbon::now()->startOfWeek(),
             'year' => Carbon::now()->startOfYear(),

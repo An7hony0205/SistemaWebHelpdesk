@@ -2,9 +2,9 @@
 
 namespace App\Domains\Automations\Controllers;
 
+use App\Domains\Automations\Models\AutomationRule;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Domains\Automations\Models\AutomationRule;
 use Illuminate\Support\Facades\DB;
 
 class AutomationRuleController extends Controller
@@ -15,7 +15,7 @@ class AutomationRuleController extends Controller
             ->where('tenant_id', $request->user()->tenant_id)
             ->orderBy('priority', 'asc')
             ->get();
-            
+
         return response()->json($rules);
     }
 
@@ -57,9 +57,11 @@ class AutomationRuleController extends Controller
             }
 
             DB::commit();
+
             return response()->json($rule->load(['conditions', 'actions']), 201);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -69,17 +71,18 @@ class AutomationRuleController extends Controller
         $rule = AutomationRule::with(['conditions', 'actions'])
             ->where('tenant_id', $request->user()->tenant_id)
             ->findOrFail($id);
-            
+
         return response()->json($rule);
     }
 
     public function update(Request $request, $id)
     {
         $rule = AutomationRule::where('tenant_id', $request->user()->tenant_id)->findOrFail($id);
-        
+
         // MVP: Support toggle quickly
         if ($request->has('is_active') && count($request->all()) === 1) {
             $rule->update(['is_active' => $request->is_active]);
+
             return response()->json($rule);
         }
 
@@ -122,9 +125,11 @@ class AutomationRuleController extends Controller
             }
 
             DB::commit();
+
             return response()->json($rule->load(['conditions', 'actions']));
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -133,6 +138,7 @@ class AutomationRuleController extends Controller
     {
         $rule = AutomationRule::where('tenant_id', $request->user()->tenant_id)->findOrFail($id);
         $rule->delete();
+
         return response()->json(null, 204);
     }
 
@@ -158,7 +164,7 @@ class AutomationRuleController extends Controller
             'actions' => [
                 ['id' => 'assign_to_user', 'label' => 'Asignar a Usuario', 'fields' => ['user_id']],
                 ['id' => 'set_status', 'label' => 'Cambiar Estado', 'fields' => ['status_id']],
-            ]
+            ],
         ]);
     }
 }

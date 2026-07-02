@@ -35,18 +35,29 @@ const columns = [
 <template>
   <div class="space-y-6 font-body">
     <div class="flex justify-between items-center">
-      <h2 class="text-2xl font-bold font-brand text-content">Plantillas de Notificación</h2>
+      <h2 class="text-2xl font-bold font-brand text-content">
+        Plantillas de Notificación
+      </h2>
       <HdButton variant="primary">
         Nueva Plantilla
       </HdButton>
     </div>
 
-    <div v-if="loading" class="flex justify-center py-8">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    <div
+      v-if="loading"
+      class="flex justify-center py-8"
+    >
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
     </div>
     
-    <HdCard v-else :noPadding="true">
-      <HdTable :columns="columns" :items="templates">
+    <HdCard
+      v-else
+      :no-padding="true"
+    >
+      <HdTable
+        :columns="columns"
+        :items="templates"
+      >
         <template #cell(event_name)="{ value }">
           <span class="font-medium font-brand text-content">{{ value }}</span>
         </template>
@@ -59,9 +70,21 @@ const columns = [
         <template #cell(version)="{ value }">
           <span class="text-muted">v{{ value }}</span>
         </template>
-        <template #cell(actions)="{ item }">
-          <HdButton variant="ghost" size="sm" class="text-primary mr-2">Preview</HdButton>
-          <HdButton variant="ghost" size="sm" class="text-primary">Editar</HdButton>
+        <template #cell(actions)>
+          <HdButton
+            variant="ghost"
+            size="sm"
+            class="text-primary mr-2"
+          >
+            Preview
+          </HdButton>
+          <HdButton
+            variant="ghost"
+            size="sm"
+            class="text-primary"
+          >
+            Editar
+          </HdButton>
         </template>
       </HdTable>
     </HdCard>

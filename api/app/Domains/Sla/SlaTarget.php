@@ -2,8 +2,8 @@
 
 namespace App\Domains\Sla;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Domains\Administration\Priority;
+use Illuminate\Database\Eloquent\Model;
 
 class SlaTarget extends Model
 {

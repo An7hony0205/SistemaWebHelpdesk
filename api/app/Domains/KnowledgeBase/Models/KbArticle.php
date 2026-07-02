@@ -2,10 +2,10 @@
 
 namespace App\Domains\KnowledgeBase\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToTenant;
-use Illuminate\Support\Str;
 use App\Domains\Identity\User;
+use App\Traits\BelongsToTenant;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class KbArticle extends Model
 {
@@ -14,7 +14,7 @@ class KbArticle extends Model
     protected $fillable = [
         'tenant_id', 'category_id', 'title', 'slug', 'excerpt', 'content',
         'status', 'author_id', 'editor_id', 'approver_id', 'published_at',
-        'expires_at', 'metadata', 'views_count', 'upvotes', 'downvotes'
+        'expires_at', 'metadata', 'views_count', 'upvotes', 'downvotes',
     ];
 
     protected $casts = [
@@ -27,7 +27,7 @@ class KbArticle extends Model
     {
         parent::boot();
         static::creating(function ($article) {
-            if (!$article->slug) {
+            if (! $article->slug) {
                 $article->slug = Str::slug($article->title);
             }
         });

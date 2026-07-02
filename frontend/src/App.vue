@@ -19,8 +19,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="loading" class="min-h-screen flex items-center justify-center bg-background">
-    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  <div
+    v-if="loading"
+    class="min-h-screen flex items-center justify-center bg-background"
+  >
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
   </div>
-  <router-view v-else></router-view>
+  <router-view v-else />
 </template>

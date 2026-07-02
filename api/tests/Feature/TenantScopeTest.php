@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-
 use App\Domains\Identity\Tenant;
-use App\Domains\Support\Ticket;
 use App\Domains\Identity\User;
 use App\Domains\Support\Category;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class TenantScopeTest extends TestCase
 {

@@ -28,6 +28,6 @@ const variantClasses = computed(() => {
 
 <template>
   <span :class="['inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium font-brand', variantClasses]">
-    <slot></slot>
+    <slot />
   </span>
 </template>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class WebhookDeliveryLog extends Model
 {
     protected $fillable = [
-        'endpoint_id', 'event_name', 'payload', 'response_status', 'response_body', 'execution_time_ms'
+        'endpoint_id', 'event_name', 'payload', 'response_status', 'response_body', 'execution_time_ms',
     ];
 
     protected $casts = [

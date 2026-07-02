@@ -2,13 +2,14 @@
 
 namespace App\Domains\Support;
 
+use App\Domains\Identity\Tenant;
+use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToTenant;
 
 class CustomField extends Model
 {
-    use HasFactory, BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 
     protected $fillable = [
         'tenant_id',
@@ -28,6 +29,6 @@ class CustomField extends Model
 
     public function tenant()
     {
-        return $this->belongsTo(\App\Domains\Identity\Tenant::class);
+        return $this->belongsTo(Tenant::class);
     }
 }

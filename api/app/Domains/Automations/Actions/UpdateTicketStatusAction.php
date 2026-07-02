@@ -12,7 +12,7 @@ class UpdateTicketStatusAction implements ActionInterface
         if (isset($payload['status_id'])) {
             $ticket->status_id = $payload['status_id'];
             $ticket->save();
-            
+
             Log::info("Automation changed ticket {$ticket->id} status to {$payload['status_id']}");
         }
     }

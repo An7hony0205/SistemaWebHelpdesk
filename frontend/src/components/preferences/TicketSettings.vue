@@ -45,48 +45,64 @@ const itemsPerPageOptions = [
 
 <template>
   <div class="font-body">
-    <h2 class="text-xl font-medium font-brand text-content mb-6">Preferencias de Tickets</h2>
+    <h2 class="text-xl font-medium font-brand text-content mb-6">
+      Preferencias de Tickets
+    </h2>
     
     <div class="space-y-8">
       <!-- Vista Predeterminada -->
       <section>
-        <h3 class="text-sm font-medium text-muted mb-4">Vista Predeterminada</h3>
+        <h3 class="text-sm font-medium text-muted mb-4">
+          Vista Predeterminada
+        </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <button 
-            @click="updateSetting('default_view', 'table')"
             :class="[localSettings.default_view === 'table' ? 'border-primary ring-2 ring-primary/20' : 'border-subtle hover:border-black/20 dark:hover:border-white/20']"
             class="relative rounded-lg border bg-surface p-4 text-left shadow-sm focus:outline-none transition-all"
+            @click="updateSetting('default_view', 'table')"
           >
             <div class="flex items-center justify-between">
               <span class="block text-sm font-medium text-content">Tabla Compacta</span>
-              <span v-if="localSettings.default_view === 'table'" class="text-primary text-xl">✓</span>
+              <span
+                v-if="localSettings.default_view === 'table'"
+                class="text-primary text-xl"
+              >✓</span>
             </div>
-            <p class="text-xs text-muted mt-1">Ideal para visualizar muchos tickets rápidamente.</p>
+            <p class="text-xs text-muted mt-1">
+              Ideal para visualizar muchos tickets rápidamente.
+            </p>
           </button>
 
           <button 
-            @click="updateSetting('default_view', 'kanban')"
             :class="[localSettings.default_view === 'kanban' ? 'border-primary ring-2 ring-primary/20' : 'border-subtle hover:border-black/20 dark:hover:border-white/20']"
             class="relative rounded-lg border bg-surface p-4 text-left shadow-sm focus:outline-none transition-all"
+            @click="updateSetting('default_view', 'kanban')"
           >
             <div class="flex items-center justify-between">
               <span class="block text-sm font-medium text-content">Vista Tablero (Kanban)</span>
-              <span v-if="localSettings.default_view === 'kanban'" class="text-primary text-xl">✓</span>
+              <span
+                v-if="localSettings.default_view === 'kanban'"
+                class="text-primary text-xl"
+              >✓</span>
             </div>
-            <p class="text-xs text-muted mt-1">Ideal para organizar flujos de trabajo visualmente.</p>
+            <p class="text-xs text-muted mt-1">
+              Ideal para organizar flujos de trabajo visualmente.
+            </p>
           </button>
         </div>
       </section>
 
       <!-- Paginación -->
       <section class="border-t border-subtle pt-6">
-        <h3 class="text-sm font-medium text-muted mb-4">Paginación</h3>
+        <h3 class="text-sm font-medium text-muted mb-4">
+          Paginación
+        </h3>
         <div class="md:w-1/3">
           <HdSelect 
             label="Tickets por página"
-            :modelValue="localSettings.items_per_page"
+            :model-value="localSettings.items_per_page"
             :options="itemsPerPageOptions"
-            @update:modelValue="updateSetting('items_per_page', Number($event))"
+            @update:model-value="updateSetting('items_per_page', Number($event))"
           />
         </div>
       </section>
@@ -95,23 +111,31 @@ const itemsPerPageOptions = [
       <section class="border-t border-subtle pt-6 space-y-4">
         <div class="flex items-center justify-between">
           <div>
-            <h3 class="text-sm font-medium text-muted">Mostrar Tickets Cerrados</h3>
-            <p class="text-xs text-muted">Incluir los tickets finalizados en los listados por defecto.</p>
+            <h3 class="text-sm font-medium text-muted">
+              Mostrar Tickets Cerrados
+            </h3>
+            <p class="text-xs text-muted">
+              Incluir los tickets finalizados en los listados por defecto.
+            </p>
           </div>
           <HdToggle 
-            :modelValue="localSettings.show_closed"
-            @update:modelValue="updateSetting('show_closed', $event)"
+            :model-value="localSettings.show_closed"
+            @update:model-value="updateSetting('show_closed', $event)"
           />
         </div>
 
         <div class="flex items-center justify-between">
           <div>
-            <h3 class="text-sm font-medium text-muted">Navegación Automática</h3>
-            <p class="text-xs text-muted">Al cerrar un ticket, abrir automáticamente el siguiente de la lista.</p>
+            <h3 class="text-sm font-medium text-muted">
+              Navegación Automática
+            </h3>
+            <p class="text-xs text-muted">
+              Al cerrar un ticket, abrir automáticamente el siguiente de la lista.
+            </p>
           </div>
           <HdToggle 
-            :modelValue="localSettings.auto_open_next"
-            @update:modelValue="updateSetting('auto_open_next', $event)"
+            :model-value="localSettings.auto_open_next"
+            @update:model-value="updateSetting('auto_open_next', $event)"
           />
         </div>
       </section>
@@ -119,15 +143,15 @@ const itemsPerPageOptions = [
       <!-- Botones de Acción -->
       <section class="border-t border-subtle pt-6 flex justify-end space-x-3">
         <HdButton 
-          @click="resetToDefault"
           variant="ghost"
+          @click="resetToDefault"
         >
           Restablecer
         </HdButton>
         <HdButton 
-          @click="applyChanges"
           :disabled="isSaving"
           variant="primary"
+          @click="applyChanges"
         >
           {{ isSaving ? 'Guardando...' : 'Aplicar' }}
         </HdButton>

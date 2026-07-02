@@ -2,8 +2,8 @@
 
 namespace App\Domains\Support;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Domains\Identity\User;
+use Illuminate\Database\Eloquent\Model;
 
 class TicketAttachment extends Model
 {

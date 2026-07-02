@@ -57,6 +57,6 @@ const variantClasses = computed(() => {
     :disabled="disabled" 
     :class="[baseClasses, sizeClasses, variantClasses]"
   >
-    <slot></slot>
+    <slot />
   </button>
 </template>

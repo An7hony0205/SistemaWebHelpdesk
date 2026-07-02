@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Domains\Support\CustomField;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class CustomFieldController extends Controller
 {
@@ -13,6 +13,7 @@ class CustomFieldController extends Controller
     public function index(Request $request)
     {
         $fields = CustomField::orderBy('id')->get();
+
         return response()->json($fields);
     }
 
@@ -42,7 +43,7 @@ class CustomFieldController extends Controller
     public function update(Request $request, $id)
     {
         $field = CustomField::findOrFail($id);
-        
+
         $request->validate([
             'label' => 'string|max:255',
             'options' => 'nullable|array',
@@ -59,7 +60,7 @@ class CustomFieldController extends Controller
     {
         $field = CustomField::findOrFail($id);
         $field->delete();
-        
+
         return response()->json(null, 204);
     }
 }
