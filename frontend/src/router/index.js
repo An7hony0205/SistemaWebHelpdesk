@@ -78,6 +78,18 @@ const routes = [
         component: () => import('../views/SlaPoliciesView.vue'),
       },
       {
+        path: 'admin/users',
+        name: 'AdminUsers',
+        component: () => import('../views/AdminUsersView.vue'),
+        meta: { title: 'Gestión de Usuarios' },
+      },
+      {
+        path: 'admin/manage-categories',
+        name: 'AdminCategories',
+        component: () => import('../views/AdminCategoriesView.vue'),
+        meta: { title: 'Gestión de Categorías' },
+      },
+      {
         path: 'settings/preferences',
         name: 'Preferences',
         component: () => import('../views/PreferencesView.vue'),
