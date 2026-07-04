@@ -95,16 +95,7 @@ export const usePreferencesStore = defineStore('preferences', {
           document.documentElement.setAttribute('data-font-size', appSettings.font_size);
         }
 
-        // We can add logic here for CSS variables if we want dynamic primary color
-        if (appSettings.primary_color) {
-          const hex = appSettings.primary_color.replace('#', '');
-          if (hex.length === 6) {
-            const r = parseInt(hex.substring(0, 2), 16);
-            const g = parseInt(hex.substring(2, 4), 16);
-            const b = parseInt(hex.substring(4, 6), 16);
-            document.documentElement.style.setProperty('--color-primary-rgb', `${r} ${g} ${b}`);
-          }
-        }
+
       }
     }
   }

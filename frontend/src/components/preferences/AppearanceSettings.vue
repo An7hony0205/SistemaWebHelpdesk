@@ -97,21 +97,6 @@ const resetToDefault = async () => {
         </div>
       </section>
 
-      <!-- Color Primario -->
-      <section class="border-t border-subtle pt-6">
-        <h3 class="text-sm font-medium text-muted mb-4">
-          Color de Acento
-        </h3>
-        <div class="flex items-center space-x-4">
-          <input 
-            type="color" 
-            :value="localSettings.primary_color"
-            class="h-10 w-20 cursor-pointer rounded border border-subtle bg-surface"
-            @change="updateSetting('primary_color', $event.target.value)"
-          >
-          <span class="text-sm text-muted">Personaliza el color principal de los botones y resaltes.</span>
-        </div>
-      </section>
 
       <!-- Toggles -->
       <section class="border-t border-subtle pt-6 space-y-4">
